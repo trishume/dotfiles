@@ -6,6 +6,12 @@ fi
 
 export LSCOLORS="exfxcxdxbxegedabagacad"
 export CLICOLOR=true
+export LANG=en_CA.UTF-8
+
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
 
 fpath=($ZSH/zsh/functions $fpath)
 
@@ -32,6 +38,13 @@ setopt APPEND_HISTORY # adds history
 setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
 setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
 setopt HIST_REDUCE_BLANKS
+
+setopt MENUCOMPLETE
+# Set/unset  shell options
+setopt   notify globdots correct pushdtohome cdablevars autolist
+setopt   correctall autocd recexact longlistjobs
+setopt   autoresume histignoredups pushdsilent
+setopt   autopushd pushdminus extendedglob rcquotes mailwarning
 
 # don't expand aliases _before_ completion has finished
 #   like: git comm-[tab]

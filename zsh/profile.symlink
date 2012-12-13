@@ -1,0 +1,10 @@
+# my stuff
+
+export PATH="/Users/tristan/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:$PATH"
+export PATH="/usr/local/Cellar/ruby/1.9.3-p194/bin:$PATH"
+export PYTHONPATH="/usr/local/lib/python2.7/site-packages:$PYTHONPATH"
+
+alias tmux="TERM=screen-256color TMPDIR=/tmp tmux"
+
+launchctl setenv PATH $PATH
+# echo Path: $PATH

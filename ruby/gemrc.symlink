@@ -4,4 +4,5 @@
 :bulk_threshold: 1000
 :backtrace: false
 :benchmark: false
+:ssl_verify_mode: 0
 gem: --no-ri --no-rdoc
