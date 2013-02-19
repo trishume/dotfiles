@@ -2,7 +2,8 @@ require 'rake'
 
 desc "Hook our dotfiles into system-standard positions."
 task :install do
-  linkables = Dir.glob('*/**{.symlink}')
+  mac = `uname -s`.chomp == "Darwin"
+  linkables = Dir.glob(mac ? '*/**{.symlink}' : '*+/**{.symlink}')
 
   skip_all = false
   overwrite_all = false

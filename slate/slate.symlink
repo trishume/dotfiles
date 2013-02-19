@@ -5,8 +5,9 @@ config resizePercentOf screenSize
 config secondsBetweenRepeat 0.1
 config checkDefaultsOnLoad true
 config focusCheckWidthMax 3000
-config keyboardLayout dvorak
+#config keyboardLayout dvorak
 config windowHintsShowIcons true
+config windowHintsBackgroundColor 50;53;58;0.0
 config windowHintsIgnoreHiddenWindows false
 #config windowHintsDuration 5
 config windowHintsSpread true
@@ -19,7 +20,7 @@ alias mon-samsung    1
 # Misc Aliases
 alias showHintsLeftHand hint AOEUIYQJKX
 alias showNormalHint hint AOEUIDHTNSYXFBPKGMCW
-alias browser 'Nightly'
+alias browser 'Aurora'
 alias editor 'MacVim'
 
 # Abstract positions
@@ -97,6 +98,8 @@ bind t:${hyper} ${lefthalf}
 bind n:${hyper} ${full}
 bind s:${hyper} ${righthalf}
 bind r:${hyper} throw next
+
+bind g:${hyper} layout 2monitors
 
 # Resize Bindings
 #bind r:${hyper} ${leftmost}
