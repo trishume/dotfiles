@@ -1,1 +1,1 @@
-export EDITOR='mvim -f'
+export EDITOR='vim -f'

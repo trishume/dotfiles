@@ -13,9 +13,9 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
-fpath=($ZSH/zsh/functions $fpath)
+fpath=($ZSH/zsh+/functions $fpath)
 
-autoload -U $ZSH/zsh/functions/*(:t)
+autoload -U $ZSH/zsh+/functions/*(:t)
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -30,7 +30,7 @@ setopt HIST_VERIFY
 setopt SHARE_HISTORY # share history between sessions ???
 setopt EXTENDED_HISTORY # add timestamps to history
 setopt PROMPT_SUBST
-setopt CORRECT
+#setopt CORRECT
 setopt COMPLETE_IN_WORD
 setopt IGNORE_EOF
 
@@ -41,8 +41,8 @@ setopt HIST_REDUCE_BLANKS
 
 setopt MENUCOMPLETE
 # Set/unset  shell options
-setopt   notify globdots correct pushdtohome cdablevars autolist
-setopt   correctall autocd recexact longlistjobs
+setopt   notify globdots pushdtohome cdablevars autolist
+setopt   autocd recexact longlistjobs
 setopt   autoresume histignoredups pushdsilent
 setopt   autopushd pushdminus extendedglob rcquotes mailwarning
 

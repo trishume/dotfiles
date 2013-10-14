@@ -16,3 +16,9 @@ for config_file ($ZSH/**/completion.sh) source $config_file
 
 # start the pry shell
 # pry
+
+# pro cd function
+pd() {
+  projDir=$(pro search $1)
+  cd ${projDir}
+}

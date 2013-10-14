@@ -100,9 +100,11 @@ set-option -g pane-active-border-fg yellow
 set-option -g pane-border-fg white
 
 ## good copy paste
-set-option -g default-command "reattach-to-user-namespace -l zsh" # or bash...
-bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
-bind C-v run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
+#set-option -g default-command "reattach-to-user-namespace -l zsh" # or bash...
+#bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy"
+#bind C-v run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer"
 
 #misc config
 set -g default-terminal "screen-256color"
+
+new-session -s tbox

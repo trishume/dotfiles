@@ -1,0 +1,177 @@
+S.log("-- Starting config --");
+S.cfga({
+  defaultToCurrentScreen : true,
+  nudgePercentOf : "screenSize",
+  resizePercentOf : "screenSize",
+  // "keyboardLayout" : "dvorak",
+  "secondsBetweenRepeat" : 0.1,
+  "checkDefaultsOnLoad" : true,
+  "focusCheckWidthMax" : 3000,
+  "windowHintsShowIcons" : true,
+  "windowHintsBackgroundColor" : "50;53;58;0.0",
+  "windowHintsIgnoreHiddenWindows" : false,
+  "windowHintsSpread" : true
+});
+
+var browser = "Google Chrome"
+var editor = "Sublime Text"
+
+var hyper = "ctrl"
+
+var appKeys = {
+  'e':browser,
+  'u':editor,
+  'x':'Xcode',
+  'g':'Github',
+  'm':'Mail',
+  'i':'iTerm',
+  'o':'Path Finder'
+}
+
+var fullApps = [
+  "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome",
+  "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes"
+];
+
+S.log("-- Creating monitor objects --");
+
+var xH = {
+  "" : {
+    x: "screenOriginX",
+    width: "screenSizeX"
+  },
+  "left" : {
+    x: "screenOriginX",
+    width: "screenSizeX/2"
+  },
+  "right" : {
+    x: "screenOriginX+screenSizeX/2",
+    width: "screenSizeX/2"
+  }
+}
+var yH = {
+  "" : {
+    y: "screenOriginY",
+    height: "screenSizeY"
+  },
+  "bot" : {
+    y: "screenOriginY+screenSizeY/2",
+    height: "screenSizeY/2"
+  },
+  "top" : {
+    y: "screenOriginY",
+    height: "screenSizeY/2"
+  }
+}
+
+// create an object with operations that act on a certain screen
+function movesObj(screen) {
+  var movO = {};
+  _.each(yH,function(yHash,yName) {
+    _.each(xH,function(xHash,xName) {
+      var opName = yName + xName;
+      if(opName === "") opName = "full";
+      // create operation
+      var hash = _.extend(yHash,xHash);
+      if(screen) hash = _.extend(hash,{"screen":screen});
+      var op = slate.operation("move",hash);
+      // add to object
+      movO[opName] = op;
+    });
+  });
+  return movO;
+}
+
+var m1 = movesObj("0");
+var m2 = movesObj("1");
+var m  = movesObj(null);
+
+// MOVE BINDINGS ========
+
+var hyperBinds = {
+  "t" : m1.left,
+  "n" : m1.full,
+  "s" : m1.right,
+  "g" : S.op("layout",{"name":"2"})
+  //"g" : function() {
+    //var layName = toString(S.screenCount());
+    //if(layouts[layName]) layouts[layName].run();
+  //}
+};
+
+// LAYOUTS =========
+S.log("-- Creating layouts --")
+
+var layoutDefs = {
+  "1" : {
+    "iTerm" : m1.right,
+    "Path Finder" : m1.right,
+    "MacVim" : m2.left,
+    "Sublime Text 2" : m2.left,
+    "Sublime Text" : m2.left,
+    "Mail" : m2.left
+  },
+  "2" : {
+    "iTerm" : m2.botright,
+    "Path Finder" : m2.topright,
+    "Mail" : m2.left,
+    "MacVim" : m1.full,
+    "Sublime Text 2" : m1.full,
+    "Sublime Text" : m1.full
+  }
+};
+
+function makeLayout(name,obj) {
+  var layObj = {};
+  // convert the data structure
+  _.each(obj,function(op,app) {
+    // add the layout options
+    var val = {
+      "operations" : [op],
+      "ignore-fail": true,
+      "repeat"     : true
+    };
+    // for every specified app
+    layObj[app] = val;
+  });
+  // add full apps
+  _.each(fullApps,function(app) {
+    // add the layout options
+    var val = {
+      "operations" : [m1.full],
+      "ignore-fail": true,
+      "repeat"     : true
+    };
+    // for every specified app
+    layObj[app] = val;
+  });
+  // make the layout
+  return S.layout(name,layObj);
+}
+
+var layouts = {};
+_.each(layoutDefs,function(def,name) {
+  var layout = makeLayout(name,def);
+  layouts[name] = layout;
+  // maybe add default
+  //var num = parseInt(name); // NaN when bad
+  //if(num > 0 && num < 5)
+    //S.def(num,layout);
+});
+
+// BINDING LOGIC
+S.log("-- Adding Bindings --");
+// hyper bindings
+_.each(hyperBinds,function(op,key) {
+  var binding = key + ":" + hyper;
+  S.log("Adding binding " + binding);
+  S.bind(binding,op);
+});
+
+// focus bindings
+_.each(appKeys,function(app,key) {
+  var op = S.op("focus",{"app":app});
+  S.bind(key + ":" + hyper,op);
+});
+
+S.log("--- LOADED TRISTAN'S CONFIG ---")

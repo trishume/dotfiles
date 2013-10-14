@@ -1,0 +1,70 @@
+# vi: set filetype=ruby fileencoding=UTF-8 shiftwidth=2 tabstop=2 expandtab
+include Math
+
+module Aliases
+  def p(name = ""); cd "~/Box/Dev/Projects/#{name}"; end
+  def fixit; mvim '~/.chitinrc'; end
+end
+include Aliases
+
+def normal_prompt
+  "#{ENV['USER'].cyan}: #{short_pwd.yellow} › "
+end
+
+def prompt
+  normal_prompt
+end
+
+def relax
+  def prompt
+    normal_prompt
+  end
+end
+
+def focus(string)
+  @todo = string
+  def prompt
+    @todo = @todo.to_s
+    #"[ #{@todo.red} #{'-' * (`tput cols`.to_i - 4 - @todo.red.size)}]\n" +
+    "[ #{@todo.red} - #{short_pwd.light_cyan} ] "
+  end
+end
+
+pre_process do |val|
+  val = val.strip == '.'  ? 'exit' : val
+  val = val.strip == '..' ? 'cd ".."' : val
+end
+
+pre_process do |val|
+  # if there is an unclosed string, close it and run it again.
+  # smart compilers are bad... but this ain't a compiler
+  #
+  # option: make it ask for confirmation first
+  # settable in chitinrc, perjaps?
+  if (e = syntax_error_for(val)) &&
+     e.message =~ /unterminated string meets end of file/
+
+    if syntax_error_for(val + '\'')
+      unless syntax_error_for(val + '"')
+        val << '"'
+      end
+    else
+      val << '\''
+    end
+
+  end
+
+  val
+end
+
+# You can use error classes as a name and if the error comes up,
+# block of code will be run.
+# 
+# post_process SyntaxError do |e, val|
+#   # sample
+# end
+
+post_process :color do |val|
+  Wirble::Colorize.colorize val
+end
+

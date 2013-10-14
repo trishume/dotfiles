@@ -1,0 +1,1 @@
+alias floobits='diffshipper --create-room --room-perms 0 -r TBox -o trishume'
