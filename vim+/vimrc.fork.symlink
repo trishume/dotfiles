@@ -1,0 +1,173 @@
+" Tristan's Vimrc
+
+" Settings
+set nolist
+set nospell
+set listchars=
+set scrolljump=1
+set noundofile
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_show_hidden = 1
+let g:indent_guides_enable_on_vim_startup = 1
+let g:snips_author = 'Tristan Hume <trishume@gmail.com>'
+
+" Editing customization
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set wrap
+set linebreak
+set nornu
+"set showbreak=…
+
+" Visual customization
+colorscheme sublime-railscasts
+set guifont=Monaco\ for\ Powerline:h12
+if has('gui_macvim')
+  let g:Powerline_symbols = 'fancy'
+  set transparency=0          " Make the window slightly transparent
+  set lines=60
+endif
+
+" Other Customization
+
+function! Preserve(command)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  execute a:command
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+
+nmap <leader>$ :call Preserve("%s/\\s\\+$//e")<CR>
+nmap <leader>p :call Preserve("gg=G")<CR>
+
+function SetWrap()
+	setlocal wrap
+  set virtualedit=
+  setlocal linebreak tw=80
+	setlocal display+=lastline
+	noremap  <buffer> <silent> <Up>   gk
+	noremap  <buffer> <silent> <Down> gj
+	noremap  <buffer> <silent> <Home> g<Home>
+	noremap  <buffer> <silent> <End>  g<End>
+	inoremap <buffer> <silent> <Up>   <C-o>gk
+	inoremap <buffer> <silent> <Down> <C-o>gj
+	inoremap <buffer> <silent> <Home> <C-o>g<Home>
+	inoremap <buffer> <silent> <End>  <C-o>g<End>
+endfunction
+
+au BufRead *.md call SetWrap()
+
+" Fancy remaps
+"inoremap hh <Esc>l
+"inoremap jj <Esc>
+nnoremap ; :
+nmap <silent> <leader>vr :e ~/Box/Dev/Dotfiles/vim+/vimrc.fork.symlink<CR>
+nmap <silent> <leader>d <Plug>DashSearch
+nmap <silent> <leader>t<Space>  :tabnew<CR>
+nmap <silent> <leader>tn :tabnext<CR>
+nmap <silent> <leader>tp :tabp<CR>
+
+" Line numbers only in current window.
+"au WinEnter * :setlocal number
+"au WinLeave * :setlocal nonumber
+
+" Leader remaps
+
+" Misc Plugin Customization
+"let g:rsenseUseOmniFunc = 1
+let g:rooter_patterns = ['.git/', '.git', '.hg/', '.bzr/', '.svn/','Rakefile','q1.rb','p1.rb']
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_global_ycm_extra_conf = '~/Box/Dev/Dotfiles/vim+/ycm_extra_conf.py'
+"let g:ycm_extra_conf_globlist = ['~/*']
+
+"NerdTree
+map <leader>e  :NERDTree<CR>
+map <leader>nt :NERDTree<CR>
+
+" Conque
+"let g:ConqueTerm_ReadUnfocused = 1
+"let g:ConqueTerm_InsertOnEnter = 1
+"let g:ConqueTerm_StartMessages = 1
+"let g:ConqueTerm_PromptRegex = '^\w\+@[0-9A-Za-z_.-]\+:[0-9A-Za-z_./\~,:-]\+\$'
+"nmap <silent> <Leader>ir :execute 'ConqueTermSplit pry'<CR>
+"let g:ConqueTerm_SendVisKey = '<Leader>e'
+
+"function! s:openZSHTerm()
+  "let g:trishume_zsh_term = conque_term#open('bash --login',['vertical botright split','vertical-resize 70'],1)
+"endfunction
+"function! s:executeRubyConque()
+  "if exists("g:trishume_zsh_term")
+    "call g:trishume_zsh_term.writeln("ruby ".bufname('%'))
+  "endif
+"endfunction
+
+"nmap <silent> <Leader>z :call <SID>openZSHTerm()<CR>
+"nmap <silent> <Leader>r :call <SID>executeRubyConque()<CR>
+
+" Bisect
+"nmap - <Plug>BisectUp
+"nmap s <Plug>BisectDown
+"let g:bisect_disable_insert
+"iunmap <Tab>
+
+" Arpeggio
+call arpeggio#load()
+"Arpeggio inoremap ht <Esc>
+Arpeggio inoremap tn <Esc>
+Arpeggio inoremap eu <Esc>
+Arpeggio nnoremap <silent> eh :tabp<CR>
+Arpeggio nnoremap <silent> el :tabn<CR>
+
+" Ctrlp customization
+let g:ctrlp_extensions = ['tag', 'buffertag', 'dir']
+nnoremap <leader>b :CtrlPBuffer<CR>
+
+" Set working directory to project root
+function! s:setcwd()
+  let cph = expand('%:p:h', 1)
+  if cph =~ '^.\+://' | retu | en
+  for mkr in ['DATA1.txt', 'DATA2.txt', 'DATA3.txt', 'DATA4.txt', 'DATA5.txt', '.git/', '.hg/', '.svn/', '.bzr/', '_darcs/', '.vimprojects','.vim']
+    let wd = call('find'.(mkr =~ '/$' ? 'dir' : 'file'), [mkr, cph.';'])
+    if wd != '' | let &acd = 0 | brea | en
+  endfo
+  exe 'cd!' fnameescape(wd == '' ? cph : substitute(wd, mkr.'$', '.', ''))
+endfunction
+
+autocmd BufEnter * call s:setcwd()
+nmap <silent> <leader>cd :call <SID>setcwd()<CR>
+
+
+" Moving around windows with hyper
+"map <C-D-S-M-j> <C-W>j<C-W>_
+"map <C-D-S-M-k> <C-W>k<C-W>_
+"map <C-D-S-M-l> <C-W>l<C-W>_
+"map <C-D-S-M-h> <C-W>h<C-W>_
+
+
+" Mac command keys
+if has("mac")
+  " create window splits with <Command-w>{s,v}
+  noremap <D-w> <C-w>   
+  inoremap <D-w> <C-w>  
+
+  " Ctrlp bindings
+  nnoremap <silent> <D-t> :CtrlP<CR>
+  nnoremap <silent> <D-p> :CtrlP ~/Box/Dev/<CR>
+  nnoremap <silent> <D-b> :CtrlPBuffer<CR>
+
+  " navigate splits quickly with the normal movement keys
+  inoremap <D-h> <esc><C-w><C-h>
+  inoremap <D-j> <esc><C-w><C-j>
+  inoremap <D-k> <esc><C-w><C-k>
+  inoremap <D-l> <esc><C-w><C-l>
+  noremap <D-h> <C-w><C-h>
+  noremap <D-j> <C-w><C-j>
+  noremap <D-k> <C-w><C-k>
+  noremap <D-l> <C-w><C-l>
+endif

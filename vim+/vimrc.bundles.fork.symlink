@@ -1,0 +1,22 @@
+let g:spf13_no_autochdir = 1
+let g:indent_guides_enable_on_vim_startup = 0
+let g:ctrlp_working_path_mode = 'ra'
+let g:spf13_bundle_groups=['general', 'programming', 'ruby', 'python', 'javascript', 'html', 'misc']
+Bundle 'trishume/sexy-railscasts-theme'
+Bundle 'nanotech/jellybeans.vim'
+Bundle 'croaker/mustang-vim'
+Bundle 'jpo/vim-railscasts-theme'
+"Bundle 'marcus/rsense'
+"Bundle 'mikezackles/Bisect'
+"Bundle 'aghareza/vim-gitgrep'
+"Bundle 'AutoComplPop'
+"Bundle 'Valloric/YouCompleteMe'
+Bundle 'tpope/vim-endwise'
+Bundle 'kana/vim-arpeggio'
+Bundle 'kana/vim-filetype-haskell'
+"Bundle 'tek/vim-conque'
+"Bundle 'skwp/vim-ruby-conque'
+Bundle 'tpope/vim-rails'
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
+Bundle 'rking/ag.vim'
