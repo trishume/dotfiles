@@ -1,0 +1,7 @@
+source 'https://rubygems.org'
+gem 'progress'
+gem 'cocoapods'
+gem 'pry'
+gem 'jekyll'
+gem 'pro'
+gem 'rails'

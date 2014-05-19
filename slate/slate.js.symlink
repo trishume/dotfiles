@@ -3,7 +3,7 @@ S.cfga({
   defaultToCurrentScreen : true,
   nudgePercentOf : "screenSize",
   resizePercentOf : "screenSize",
-  // "keyboardLayout" : "dvorak",
+  //"keyboardLayout" : "dvorak",
   "secondsBetweenRepeat" : 0.1,
   "checkDefaultsOnLoad" : true,
   "focusCheckWidthMax" : 3000,
@@ -23,9 +23,9 @@ var appKeys = {
   'u':editor,
   'x':'Xcode',
   'g':'Github',
-  'm':'Mail',
-  'i':'iTerm',
-  'o':'Path Finder'
+  'm':'Airmail',
+  // 'i':'iTerm',
+  // 'o':'Path Finder'
 }
 
 var fullApps = [
@@ -86,19 +86,6 @@ var m1 = movesObj("0");
 var m2 = movesObj("1");
 var m  = movesObj(null);
 
-// MOVE BINDINGS ========
-
-var hyperBinds = {
-  "t" : m1.left,
-  "n" : m1.full,
-  "s" : m1.right,
-  "g" : S.op("layout",{"name":"2"})
-  //"g" : function() {
-    //var layName = toString(S.screenCount());
-    //if(layouts[layName]) layouts[layName].run();
-  //}
-};
-
 // LAYOUTS =========
 S.log("-- Creating layouts --")
 
@@ -106,15 +93,16 @@ var layoutDefs = {
   "1" : {
     "iTerm" : m1.right,
     "Path Finder" : m1.right,
-    "MacVim" : m2.left,
-    "Sublime Text 2" : m2.left,
-    "Sublime Text" : m2.left,
-    "Mail" : m2.left
+    "MacVim" : m1.left,
+    "Sublime Text 2" : m1.left,
+    "Sublime Text" : m1.left,
+    "Mail" : m1.left
   },
   "2" : {
-    "iTerm" : m2.botright,
-    "Path Finder" : m2.topright,
+    "iTerm" : m2.right,
+    "Path Finder" : m2.left,
     "Mail" : m2.left,
+    "Thunderbird" : m2.left,
     "MacVim" : m1.full,
     "Sublime Text 2" : m1.full,
     "Sublime Text" : m1.full
@@ -159,6 +147,46 @@ _.each(layoutDefs,function(def,name) {
     //S.def(num,layout);
 });
 
+function eachTermWin(func) {
+  S.eachApp(function(appObj) {
+    if(appObj.name() === "iTerm") {
+      appObj.eachWindow(function(winObj){
+        func(winObj);
+      });
+    }
+  })
+}
+
+var opGoLayout = [S.op("layout",{"name":"1"}), S.op("layout",{"name":"2"})];
+function doLayout(win) {
+  opGoLayout[S.screenCount() - 1].run();
+  // move ranger to right place
+  eachTermWin(function(winObj) {
+    if(winObj.title().indexOf("Python") > -1) {
+      winObj.doOperation(m2.left);jj
+    }
+  });
+}
+
+
+// MOVE BINDINGS ========
+
+var hint = slate.operation("hint", {
+  "characters" : "AOEUIDHTNSPYFGCRL"
+});
+S.bind("e:cmd", hint);
+
+var hyperBinds = {
+  "t" : m1.left,
+  "n" : m1.full,
+  "s" : m1.right,
+  "g" : doLayout
+  //"g" : function() {
+    //var layName = toString(S.screenCount());
+    //if(layouts[layName]) layouts[layName].run();
+  //}
+};
+
 // BINDING LOGIC
 S.log("-- Adding Bindings --");
 // hyper bindings
@@ -172,6 +200,22 @@ _.each(hyperBinds,function(op,key) {
 _.each(appKeys,function(app,key) {
   var op = S.op("focus",{"app":app});
   S.bind(key + ":" + hyper,op);
+});
+
+S.bind("i:"+hyper, function(win) {
+  eachTermWin(function(winObj){
+    if(winObj.title().indexOf("Python") < 0) {
+      winObj.focus();
+    }
+  });
+});
+
+S.bind("o:"+hyper, function(win) {
+  eachTermWin(function(winObj){
+    if(winObj.title().indexOf("Python") > -1) {
+      winObj.focus();
+    }
+  });
 });
 
 S.log("--- LOADED TRISTAN'S CONFIG ---")

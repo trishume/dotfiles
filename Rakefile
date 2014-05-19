@@ -3,7 +3,7 @@ require 'rake'
 desc "Hook our dotfiles into system-standard positions."
 task :install do
   mac = `uname -s`.chomp == "Darwin"
-  linkables = Dir.glob(mac ? '*/**{.symlink}' : '*+/**{.symlink}')
+  linkables = Dir.glob(mac ? '*/**{.symlink,.config}' : '*+/**{.symlink,.config}')
 
   skip_all = false
   overwrite_all = false
@@ -13,8 +13,13 @@ task :install do
     overwrite = false
     backup = false
 
-    file = linkable.split('/').last.split('.symlink').last
-    target = "#{ENV["HOME"]}/.#{file}"
+    if linkable.include?('.config')
+      file = linkable.split('/').last.split('.config').last
+      target = "#{ENV["HOME"]}/.config/#{file}"
+    else
+      file = linkable.split('/').last.split('.symlink').last
+      target = "#{ENV["HOME"]}/.#{file}"
+    end
 
     if File.exists?(target) || File.symlink?(target)
       unless skip_all || overwrite_all || backup_all
@@ -29,7 +34,7 @@ task :install do
         end
       end
       FileUtils.rm_rf(target) if overwrite || overwrite_all
-      `mv "$HOME/.#{file}" "$HOME/.#{file}.backup"` if backup || backup_all
+      `mv "#{target}" "#{target}.backup"` if backup || backup_all
     end
     `ln -s "$PWD/#{linkable}" "#{target}"`
   end
@@ -46,10 +51,10 @@ task :uninstall do
     if File.symlink?(target)
       FileUtils.rm(target)
     end
-    
+
     # Replace any backups made during installation
     if File.exists?("#{ENV["HOME"]}/.#{file}.backup")
-      `mv "$HOME/.#{file}.backup" "$HOME/.#{file}"` 
+      `mv "$HOME/.#{file}.backup" "$HOME/.#{file}"`
     end
 
   end

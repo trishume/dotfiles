@@ -1,0 +1,3 @@
+#!/bin/bash
+qlmanage -p "$@"
+osascript -e "tell application \"iTerm\" to activate"
