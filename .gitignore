@@ -2,3 +2,6 @@ vim/vim.symlink/.netrwhist
 git/gitconfig.symlink
 floobits+/floorc.symlink
 bin/tboxSync
+*.pyo
+ranger/ranger.config/bookmarks
+ranger/ranger.config/history

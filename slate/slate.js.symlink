@@ -24,8 +24,8 @@ var appKeys = {
   'x':'Xcode',
   'g':'Github',
   'm':'Airmail',
-  // 'i':'iTerm',
-  // 'o':'Path Finder'
+  'i':'iTerm',
+  'o':'MacRanger'
 }
 
 var fullApps = [
@@ -100,6 +100,7 @@ var layoutDefs = {
   },
   "2" : {
     "iTerm" : m2.right,
+    "MacRanger" : m2.left,
     "Path Finder" : m2.left,
     "Mail" : m2.left,
     "Thunderbird" : m2.left,
@@ -161,11 +162,11 @@ var opGoLayout = [S.op("layout",{"name":"1"}), S.op("layout",{"name":"2"})];
 function doLayout(win) {
   opGoLayout[S.screenCount() - 1].run();
   // move ranger to right place
-  eachTermWin(function(winObj) {
-    if(winObj.title().indexOf("Python") > -1) {
-      winObj.doOperation(m2.left);jj
-    }
-  });
+  // eachTermWin(function(winObj) {
+  //   if(winObj.title().indexOf("Python") > -1) {
+  //     winObj.doOperation(m2.left);jj
+  //   }
+  // });
 }
 
 
@@ -202,20 +203,20 @@ _.each(appKeys,function(app,key) {
   S.bind(key + ":" + hyper,op);
 });
 
-S.bind("i:"+hyper, function(win) {
-  eachTermWin(function(winObj){
-    if(winObj.title().indexOf("Python") < 0) {
-      winObj.focus();
-    }
-  });
-});
+// S.bind("i:"+hyper, function(win) {
+//   eachTermWin(function(winObj){
+//     if(winObj.title().indexOf("Python") < 0) {
+//       winObj.focus();
+//     }
+//   });
+// });
 
-S.bind("o:"+hyper, function(win) {
-  eachTermWin(function(winObj){
-    if(winObj.title().indexOf("Python") > -1) {
-      winObj.focus();
-    }
-  });
-});
+// S.bind("o:"+hyper, function(win) {
+//   eachTermWin(function(winObj){
+//     if(winObj.title().indexOf("Python") > -1) {
+//       winObj.focus();
+//     }
+//   });
+// });
 
 S.log("--- LOADED TRISTAN'S CONFIG ---")

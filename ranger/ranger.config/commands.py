@@ -107,6 +107,16 @@ class pro(Command):
         loc = subprocess.check_output(command)
         self.fm.cd(str(loc).rstrip())
 
+class app(Command):
+    """:app
+    """
+
+    context = 'browser'
+
+    def execute(self):
+        action = ['mv', '-f', self.fm.thisfile.path, '/Applications']
+        self.fm.execute_command(action)
+
 class console(Command):
     """:console <command>
 

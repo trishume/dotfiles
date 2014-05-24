@@ -13,7 +13,7 @@ class ItermImageDisplayer(object):
     def draw(self,path, start_x, start_y, width, height):
         # self.fm.notify("drawing " + str(start_x) + " " + str(start_y) + " " + path)
         # self.fm.open_console("wut")
-        self._placeImage(path, start_x, start_y, width)
+        self._placeImage(path, start_x, start_y, width, height)
 
     def clear(self, start_x, start_y, width, height):
         """Clear a part of terminal display."""
@@ -25,8 +25,8 @@ class ItermImageDisplayer(object):
     def quit(self):
         pass
 
-    def _placeImage(self,path,x,y,width):
-        text = self._imageEscape(path,width)
+    def _placeImage(self,path,x,y,width,height):
+        text = self._imageEscape(path,width,height)
         # text = "holy moly"
         curses.putp(curses.tigetstr("sc"))
         move = curses.tparm(curses.tigetstr("cup"), y, x)
@@ -35,7 +35,7 @@ class ItermImageDisplayer(object):
         curses.putp(curses.tigetstr("rc"))
         sys.stdout.flush()
 
-    def _imageEscape(self, fileName, width):
+    def _imageEscape(self, fileName, width, height):
         content = self._readImage(fileName)
 
         text = "\033]1337;File=name="
@@ -44,6 +44,8 @@ class ItermImageDisplayer(object):
         text += str(len(content))
         text += ";inline=1;width="
         text += str(width)
+        text += ";height="
+        text += str(height)
         text += ":"
         text += base64.b64encode(content)
         text += "\a\n"
