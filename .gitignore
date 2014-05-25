@@ -3,5 +3,6 @@ git/gitconfig.symlink
 floobits+/floorc.symlink
 bin/tboxSync
 *.pyo
+*.pyc
 ranger/ranger.config/bookmarks
 ranger/ranger.config/history

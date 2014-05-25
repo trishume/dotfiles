@@ -21,6 +21,7 @@
 path="$1"    # Full path of the selected file
 width="$2"   # Width of the preview pane (number of fitting characters)
 height="$3"  # Height of the preview pane (number of fitting characters)
+cache="$4"
 
 maxln=200    # Stop after $maxln lines.  Can be used like ls | head -n $maxln
 
@@ -77,10 +78,12 @@ case "$mimetype" in
         # imgcolcat "$path" "$width" && exit 3 || exit 1;;
         #img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
     # Display information about media files:
-    video/* | audio/*)
-        exiftool "$path" && exit 5
-        # Use sed to remove spaces so the output fits into the narrow window
-        try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; } || exit 1;;
+    # video/*)
+    #     /Users/tristan/Box/Dev/Dotfiles/ranger/ranger.config/QLTool.app/Contents/MacOS/QLTool si "$path" 200 200 "$cached" && exit 6 || exit 1;;
+    # video/* | audio/*)
+    #     #exiftool "$path" && exit 5
+    #     # Use sed to remove spaces so the output fits into the narrow window
+    #     try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; } || exit 1;;
 esac
 
 exit 1
