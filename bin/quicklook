@@ -1,3 +1,4 @@
 #!/bin/bash
 qlmanage -p "$@"
-osascript -e "tell application \"iTerm\" to activate"
+# /Users/tristan/bin/QLTool.app/Contents/MacOS/QLTool p "$@"
+osascript -e "tell application \"MacRanger\" to activate"
