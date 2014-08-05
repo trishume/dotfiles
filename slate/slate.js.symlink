@@ -8,7 +8,7 @@ S.cfga({
   "checkDefaultsOnLoad" : true,
   "focusCheckWidthMax" : 3000,
   "windowHintsShowIcons" : true,
-  "windowHintsBackgroundColor" : "50;53;58;0.0",
+  "windowHintsBackgroundColor" : "50;53;58;0.2",
   "windowHintsIgnoreHiddenWindows" : false,
   "windowHintsSpread" : true
 });
@@ -47,6 +47,10 @@ var xH = {
   "right" : {
     x: "screenOriginX+screenSizeX/2",
     width: "screenSizeX/2"
+  },
+  "middle" : {
+    x: "screenOriginX+screenSizeX/6",
+    width: "3*screenSizeX/4"
   }
 }
 var yH = {
@@ -61,6 +65,10 @@ var yH = {
   "top" : {
     y: "screenOriginY",
     height: "screenSizeY/2"
+  },
+  "middle" : {
+    y: "screenOriginY+screenSizeY/16",
+    height: "7*screenSizeY/8"
   }
 }
 
@@ -96,7 +104,9 @@ var layoutDefs = {
     "MacVim" : m1.left,
     "Sublime Text 2" : m1.left,
     "Sublime Text" : m1.left,
-    "Mail" : m1.left
+    "Mail" : m1.left,
+    "Dash" : m1.full,
+    "Airmail" : m1.full,
   },
   "2" : {
     "iTerm" : m2.right,
@@ -106,7 +116,9 @@ var layoutDefs = {
     "Thunderbird" : m2.left,
     "MacVim" : m1.full,
     "Sublime Text 2" : m1.full,
-    "Sublime Text" : m1.full
+    "Sublime Text" : m1.full,
+    "Dash" : m1.middlemiddle,
+    "Airmail" : m1.middlemiddle
   }
 };
 
@@ -181,6 +193,7 @@ var hyperBinds = {
   "t" : m1.left,
   "n" : m1.full,
   "s" : m1.right,
+  "h" : m1.middlemiddle,
   "g" : doLayout
   //"g" : function() {
     //var layName = toString(S.screenCount());

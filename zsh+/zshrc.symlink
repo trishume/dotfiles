@@ -4,6 +4,7 @@ export ZSH=$HOME/Box/Dev/Dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Box/Dev
 export SITE_DEPLOY_PATH=~/Box/Sites/thume
+export LEDGER_FILE=~/Box/Life/me.ldg
 
 # source every .zsh file in this rep
 for config_file ($ZSH/**/*.zsh) source $config_file
