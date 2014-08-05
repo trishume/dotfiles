@@ -3,7 +3,7 @@ S.cfga({
   defaultToCurrentScreen : true,
   nudgePercentOf : "screenSize",
   resizePercentOf : "screenSize",
-  //"keyboardLayout" : "dvorak",
+  "keyboardLayout" : "dvorak",
   "secondsBetweenRepeat" : 0.1,
   "checkDefaultsOnLoad" : true,
   "focusCheckWidthMax" : 3000,
@@ -25,7 +25,8 @@ var appKeys = {
   'g':'Github',
   'm':'Airmail',
   'i':'iTerm',
-  'o':'MacRanger'
+  'o':'MacRanger',
+  'f':'Flowdock'
 }
 
 var fullApps = [
@@ -82,8 +83,8 @@ function movesObj(screen) {
   return movO;
 }
 
-var m1 = movesObj("0");
-var m2 = movesObj("1");
+var m1 = movesObj("1");
+var m2 = movesObj("0");
 var m  = movesObj(null);
 
 // LAYOUTS =========
@@ -101,7 +102,7 @@ var layoutDefs = {
   "2" : {
     "iTerm" : m2.right,
     "MacRanger" : m2.left,
-    "Path Finder" : m2.left,
+    "Finder" : m2.left,
     "Mail" : m2.left,
     "Thunderbird" : m2.left,
     "MacVim" : m1.full,
