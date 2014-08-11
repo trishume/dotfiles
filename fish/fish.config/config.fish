@@ -7,7 +7,7 @@ set -x GOPATH $HOME/WorkBox/go
 set -x EDITOR vim
 #set -x SITE_DEPLOY_PATH ~/Box/Sites/thume
 #set -x LEDGER_FILE ~/Box/Life/me.ldg
-set PATH /usr/local/bin /usr/local/sbin $DOTFILES/bin $PATH /usr/local/opt/go/libexec/bin
+set PATH $GOPATH/bin /usr/local/bin /usr/local/sbin $DOTFILES/bin $PATH /usr/local/opt/go/libexec/bin
 
 set fish_custom $HOME/.config/fish/custom
 set fish_theme thume
@@ -25,8 +25,9 @@ function fish_title
   echo (prompt_pwd)
 end
 
-alias git hub
-
 function pd
   cd (pro search $argv)
 end
+
+alias git hub
+alias be "bundle exec"

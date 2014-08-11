@@ -3,7 +3,7 @@ S.cfga({
   defaultToCurrentScreen : true,
   nudgePercentOf : "screenSize",
   resizePercentOf : "screenSize",
-  "keyboardLayout" : "dvorak",
+//  "keyboardLayout" : "dvorak",
   "secondsBetweenRepeat" : 0.1,
   "checkDefaultsOnLoad" : true,
   "focusCheckWidthMax" : 3000,
