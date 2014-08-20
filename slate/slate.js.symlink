@@ -30,7 +30,7 @@ var appKeys = {
 }
 
 var fullApps = [
-  "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome",
+  "Safari","Aurora","Nightly","Xcode","Qt Creator",
   "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes"
 ];
 
@@ -117,7 +117,8 @@ var layoutDefs = {
     "Thunderbird" : m2.left,
     "MacVim" : m1.full,
     "Sublime Text 2" : m1.full,
-    "Sublime Text" : m1.full,
+    "Sublime Text" : m1.left,
+    "Google Chrome" : m1.right,
     "Dash" : m1.middlemiddle,
     "Airmail" : m1.middlemiddle
   }
