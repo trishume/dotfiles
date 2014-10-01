@@ -15,6 +15,10 @@
 "   You can find me at http://spf13.com
 " }
 
+if $SHELL =~ 'fish'
+  set shell=/bin/bash
+endif
+
 " Environment {
     " Basics {
         set nocompatible        " must be first line
