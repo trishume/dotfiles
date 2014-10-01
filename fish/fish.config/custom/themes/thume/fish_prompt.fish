@@ -15,40 +15,44 @@
 #     set -g theme_display_user yes
 #     set -g default_user your_normal_user
 
-set -g __bobthefish_current_bg NONE
+set -g _thume_current_bg NONE
 
 # Powerline glyphs
-set __bobthefish_branch_glyph            \u2B60
-set __bobthefish_ln_glyph                \u2B61
-set __bobthefish_padlock_glyph           \u2B64
-set __bobthefish_right_black_arrow_glyph \u2B80
-set __bobthefish_right_arrow_glyph       \u2B81
-set __bobthefish_left_black_arrow_glyph  \u2B82
-set __bobthefish_left_arrow_glyph        \u2B83
+set _thume_branch_glyph            \u2B60
+set _thume_ln_glyph                \u2B61
+set _thume_padlock_glyph           \u2B64
+set _thume_right_black_arrow_glyph \u2B80
+set _thume_right_arrow_glyph       \u2B81
+set _thume_left_black_arrow_glyph  \u2B82
+set _thume_left_arrow_glyph        \u2B83
 
 # Additional glyphs
-set __bobthefish_detached_glyph          \u27A6
-set __bobthefish_nonzero_exit_glyph      '! '
-set __bobthefish_superuser_glyph         '$ '
-set __bobthefish_bg_job_glyph            '% '
+set _thume_detached_glyph          \u27A6
+set _thume_nonzero_exit_glyph      '! '
+set _thume_superuser_glyph         '$ '
+set _thume_bg_job_glyph            '% '
+
+# Machine glyphs
+set _thume_tbook_glyph  \u26A1\uFE0E
+#set _thume_tbook_glyph  \u2318
 
 # Colors
-set __bobthefish_lt_green   brgreen
-set __bobthefish_med_green  green
-set __bobthefish_dk_green   0c4801
+set _thume_lt_green   brgreen
+set _thume_med_green  green
+set _thume_dk_green   0c4801
 
-set __bobthefish_lt_red     magenta
-set __bobthefish_med_red    yellow
-set __bobthefish_dk_red     yellow
+set _thume_lt_red     magenta
+set _thume_med_red    yellow
+set _thume_dk_red     yellow
 
-set __bobthefish_slate_blue blue
+set _thume_slate_blue blue
 
-set __bobthefish_lt_orange  yellow
-set __bobthefish_dk_orange  yellow
+set _thume_lt_orange  yellow
+set _thume_dk_orange  yellow
 
-set __bobthefish_dk_grey    black
-set __bobthefish_med_grey   839496
-set __bobthefish_lt_grey    white
+set _thume_dk_grey    black
+set _thume_med_grey   839496
+set _thume_lt_grey    white
 
 set _pr_fg black
 set _pr_dir_bg blue
@@ -61,29 +65,29 @@ set _pr_dirty_bg yellow
 # Helper methods
 # ===========================
 
-function __bobthefish_in_git -d 'Check whether pwd is inside a git repo'
+function _thume_in_git -d 'Check whether pwd is inside a git repo'
   command git rev-parse --is-inside-work-tree >/dev/null 2>&1
 end
 
-function __bobthefish_git_branch -d 'Get the current git branch (or commitish)'
+function _thume_git_branch -d 'Get the current git branch (or commitish)'
   set -l ref (command git symbolic-ref HEAD 2> /dev/null)
   if [ $status -gt 0 ]
     set -l branch (command git show-ref --head -s --abbrev |head -n1 2> /dev/null)
-    set ref "$__bobthefish_detached_glyph $branch"
+    set ref "$_thume_detached_glyph $branch"
   end
-  echo $ref | sed  "s-refs/heads/-$__bobthefish_branch_glyph -"
+  echo $ref | sed  "s-refs/heads/-$_thume_branch_glyph -"
 end
 
-function __bobthefish_pretty_parent -d 'Print a parent directory, shortened to fit the prompt'
+function _thume_pretty_parent -d 'Print a parent directory, shortened to fit the prompt'
   echo -n (dirname $argv[1]) | sed -e 's|/private||' -e "s|^$HOME|~|" -e 's-/\(\.\{0,1\}[^/]\)\([^/]*\)-/\1-g' -e 's|/$||'
 end
 
-function __bobthefish_project_dir -d 'Print the current git project base directory'
+function _thume_project_dir -d 'Print the current git project base directory'
   command git rev-parse --show-toplevel 2>/dev/null
 end
 
-function __bobthefish_project_pwd -d 'Print the working directory relative to project root'
-  set -l base_dir (__bobthefish_project_dir)
+function _thume_project_pwd -d 'Print the working directory relative to project root'
+  set -l base_dir (_thume_project_dir)
   echo "$PWD" | sed -e "s*$base_dir**g" -e 's*^/**'
 end
 
@@ -92,32 +96,32 @@ end
 # Segment functions
 # ===========================
 
-function __bobthefish_start_segment -d 'Start a prompt segment'
+function _thume_start_segment -d 'Start a prompt segment'
   set_color -b $argv[1]
   set_color $argv[2]
-  if [ "$__bobthefish_current_bg" = 'NONE' ]
+  if [ "$_thume_current_bg" = 'NONE' ]
     # If there's no background, just start one
     echo -n ' '
   else
     # If there's already a background...
-    if [ "$argv[1]" = "$__bobthefish_current_bg" ]
+    if [ "$argv[1]" = "$_thume_current_bg" ]
       # and it's the same color, draw a separator
-      echo -n "$__bobthefish_right_arrow_glyph "
+      echo -n "$_thume_right_arrow_glyph "
     else
       # otherwise, draw the end of the previous segment and the start of the next
-      set_color $__bobthefish_current_bg
-      echo -n "$__bobthefish_right_black_arrow_glyph "
+      set_color $_thume_current_bg
+      echo -n "$_thume_right_black_arrow_glyph "
       set_color $argv[2]
     end
   end
-  set __bobthefish_current_bg $argv[1]
+  set _thume_current_bg $argv[1]
 end
 
-function __bobthefish_path_segment -d 'Display a shortened form of a directory'
+function _thume_path_segment -d 'Display a shortened form of a directory'
   if test -w "$argv[1]"
-    __bobthefish_start_segment $_pr_dir_bg $_pr_dir_low
+    _thume_start_segment $_pr_dir_bg $_pr_dir_low
   else
-    __bobthefish_start_segment $__bobthefish_dk_red $__bobthefish_lt_red
+    _thume_start_segment $_thume_dk_red $_thume_lt_red
   end
 
   set -l directory
@@ -129,7 +133,7 @@ function __bobthefish_path_segment -d 'Display a shortened form of a directory'
     case "$HOME"
       set directory '~'
     case '*'
-      #set parent    (__bobthefish_pretty_parent "$argv[1]")
+      #set parent    (_thume_pretty_parent "$argv[1]")
       #set parent    "$parent/"
       set directory (basename "$argv[1]")
       set directory "$directory/"
@@ -140,14 +144,14 @@ function __bobthefish_path_segment -d 'Display a shortened form of a directory'
   set_color normal
 end
 
-function __bobthefish_finish_segments -d 'Close open prompt segments'
-  if [ -n $__bobthefish_current_bg -a $__bobthefish_current_bg != 'NONE' ]
+function _thume_finish_segments -d 'Close open prompt segments'
+  if [ -n $_thume_current_bg -a $_thume_current_bg != 'NONE' ]
     set_color -b normal
-    set_color $__bobthefish_current_bg
-    echo -n "$__bobthefish_right_black_arrow_glyph "
+    set_color $_thume_current_bg
+    echo -n "$_thume_right_black_arrow_glyph "
     set_color normal
   end
-  set -g __bobthefish_current_bg NONE
+  set -g _thume_current_bg NONE
 end
 
 
@@ -155,61 +159,80 @@ end
 # Theme components
 # ===========================
 
-function __bobthefish_prompt_status -d 'Display symbols for a non zero exit status, root and background jobs'
+function _thume_prompt_status -d 'Display symbols for a non zero exit status, root and background jobs'
   set -l nonzero
   set -l superuser
   set -l bg_jobs
 
   # Last exit was nonzero
   if [ $RETVAL -ne 0 ]
-    set nonzero $__bobthefish_nonzero_exit_glyph
+    set nonzero $_thume_nonzero_exit_glyph
   end
 
   # if superuser (uid == 0)
   set -l uid (id -u $USER)
   if [ $uid -eq 0 ]
-    set superuser $__bobthefish_superuser_glyph
+    set superuser $_thume_superuser_glyph
   end
 
   # Jobs display
   if [ (jobs -l | wc -l) -gt 0 ]
-    set bg_jobs $__bobthefish_bg_job_glyph
+    set bg_jobs $_thume_bg_job_glyph
   end
 
   set -l status_flags "$nonzero$superuser$bg_jobs"
 
   if test "$nonzero" -o "$superuser" -o "$bg_jobs"
-    __bobthefish_start_segment fff 000
+    _thume_start_segment fff 000
     if [ "$nonzero" ]
-      set_color $__bobthefish_med_red --bold
-      echo -n $__bobthefish_nonzero_exit_glyph
+      set_color $_thume_med_red --bold
+      echo -n $_thume_nonzero_exit_glyph
     end
 
     if [ "$superuser" ]
-      set_color $__bobthefish_med_green --bold
-      echo -n $__bobthefish_superuser_glyph
+      set_color $_thume_med_green --bold
+      echo -n $_thume_superuser_glyph
     end
 
     if [ "$bg_jobs" ]
-      set_color $__bobthefish_slate_blue --bold
-      echo -n $__bobthefish_bg_job_glyph
+      set_color $_thume_slate_blue --bold
+      echo -n $_thume_bg_job_glyph
     end
 
     set_color normal
+  else
+    _thume_start_segment white red
+    echo -n "$_thume_tbook_glyph "
   end
 end
 
-function __bobthefish_prompt_user -d 'Display actual user if different from $default_user'
+function _thume_prompt_user -d 'Display actual user if different from $default_user'
   if [ "$theme_display_user" = 'yes' ]
     if [ "$USER" != "$default_user" -o -n "$SSH_CLIENT" ]
-      __bobthefish_start_segment $__bobthefish_lt_grey $__bobthefish_slate_blue
+      _thume_start_segment $_thume_lt_grey $_thume_slate_blue
       echo -n -s (whoami) '@' (hostname | cut -d . -f 1) ' '
     end
   end
 end
 
+function _thume_prompt_load -d 'Display load average if too high'
+  set -l load1m (uptime | grep -o '[0-9]\+\.[0-9]\+' | head -n1)
+  set -l load1m_test (math $load1m \* 100 / 1)
+  if test $load1m_test -gt 100
+    _thume_start_segment $_thume_lt_grey $_thume_slate_blue
+    echo -n load:$load1m
+  end
+end
+
+function _thume_prompt_time -d 'Display execution time if too high'
+  if test $CMD_DURATION
+    _thume_start_segment cyan $_thume_lt_grey
+    echo -n "$CMD_DURATION "
+  end
+end
+
 # TODO: clean up the fugly $ahead business
-function __bobthefish_prompt_git -d 'Display the actual git state'
+function _thume_prompt_git -d 'Display the actual git state'
   set -l dirty   (command git diff --no-ext-diff --quiet --exit-code; or echo -n '*')
   set -l staged  (command git diff --cached --no-ext-diff --quiet --exit-code; or echo -n '~')
   set -l stashed (command git rev-parse --verify refs/stash > /dev/null 2>&1; and echo -n '$')
@@ -227,31 +250,31 @@ function __bobthefish_prompt_git -d 'Display the actual git state'
     set flag_bg $_pr_dirty_bg
   else
     if test "$stashed"
-      set flag_bg $__bobthefish_lt_orange
+      set flag_bg $_thume_lt_orange
     end
   end
 
-  __bobthefish_path_segment (__bobthefish_project_dir)
+  _thume_path_segment (_thume_project_dir)
 
-  __bobthefish_start_segment $flag_bg $flag_fg
+  _thume_start_segment $flag_bg $flag_fg
   set_color $flag_fg
-  echo -n -s (__bobthefish_git_branch) $flags ' '
+  echo -n -s (_thume_git_branch) $flags ' '
   set_color normal
 
-  set -l project_pwd  (__bobthefish_project_pwd)
+  set -l project_pwd  (_thume_project_pwd)
   if test "$project_pwd"
     if test -w "$PWD"
-      __bobthefish_start_segment 333 999
+      _thume_start_segment 333 999
     else
-      __bobthefish_start_segment $__bobthefish_med_red $__bobthefish_lt_red
+      _thume_start_segment $_thume_med_red $_thume_lt_red
     end
 
     echo -n -s $project_pwd ' '
   end
 end
 
-function __bobthefish_prompt_dir -d 'Display a shortened form of the current directory'
-  __bobthefish_path_segment "$PWD"
+function _thume_prompt_dir -d 'Display a shortened form of the current directory'
+  _thume_path_segment "$PWD"
 end
 
 
@@ -261,12 +284,12 @@ end
 
 function fish_prompt -d 'bobthefish, a fish theme optimized for awesome'
   set -g RETVAL $status
-  __bobthefish_prompt_status
-  __bobthefish_prompt_user
-  if __bobthefish_in_git
-    __bobthefish_prompt_git
+  _thume_prompt_status
+  _thume_prompt_time
+  if _thume_in_git
+    _thume_prompt_git
   else
-    __bobthefish_prompt_dir
+    _thume_prompt_dir
   end
-  __bobthefish_finish_segments
+  _thume_finish_segments
 end
