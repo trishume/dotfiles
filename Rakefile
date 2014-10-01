@@ -22,6 +22,7 @@ task :install do
     end
 
     if File.exists?(target) || File.symlink?(target)
+      next if skip_all
       unless skip_all || overwrite_all || backup_all
         puts "File already exists: #{target}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
         case STDIN.gets.chomp
