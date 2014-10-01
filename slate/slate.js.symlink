@@ -1,17 +1,19 @@
 S.log("-- Starting config --");
-S.cfga({
+var config = {
   defaultToCurrentScreen : true,
   nudgePercentOf : "screenSize",
   resizePercentOf : "screenSize",
-  //"keyboardLayout" : "dvorak",
+  "keyboardLayout" : "dvorak",
   "secondsBetweenRepeat" : 0.1,
   "checkDefaultsOnLoad" : true,
   "focusCheckWidthMax" : 3000,
   "windowHintsShowIcons" : true,
-  "windowHintsBackgroundColor" : "50;53;58;0.2",
+  "windowHintsBackgroundColor" : "50;53;58;0.4",
   "windowHintsIgnoreHiddenWindows" : false,
   "windowHintsSpread" : true
-});
+}
+S.cfga(config);
+
 
 var browser = "Google Chrome"
 var editor = "Sublime Text"
@@ -24,8 +26,9 @@ var appKeys = {
   'x':'Xcode',
   'g':'Github',
   'm':'Airmail',
-  'i':'iTerm',
-  'o':'MacRanger'
+  'i':'iTerm2',
+  'o':'MacRanger',
+  'q':'Qt Creator'
 }
 
 var fullApps = [
@@ -99,7 +102,7 @@ S.log("-- Creating layouts --")
 
 var layoutDefs = {
   "1" : {
-    "iTerm" : m1.right,
+    "iTerm2" : m1.right,
     "Path Finder" : m1.right,
     "MacVim" : m1.left,
     "Sublime Text 2" : m1.left,
@@ -109,7 +112,7 @@ var layoutDefs = {
     "Airmail" : m1.full,
   },
   "2" : {
-    "iTerm" : m2.right,
+    "iTerm2" : m2.right,
     "MacRanger" : m2.left,
     "Path Finder" : m2.left,
     "Mail" : m2.left,
