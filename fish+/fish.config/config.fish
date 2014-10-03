@@ -10,6 +10,7 @@ set fish_theme thume
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-fish/plugins/*)
 # Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
 # Example format: set fish_plugins autojump bundler
+set fish_plugins bundler localhost percol gi
 
 # Load oh-my-fish configuration.
 . $fish_path/oh-my-fish.fish
@@ -18,6 +19,10 @@ set fish_greeting ''
 
 function fish_title
   echo (prompt_pwd)
+end
+
+function fish_user_key_bindings
+  bind \cr percol_select_history
 end
 
 function pd

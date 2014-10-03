@@ -35,6 +35,7 @@ set _thume_bg_job_glyph            '% '
 # Machine glyphs
 set _thume_tbook_glyph  \u26A1\uFE0E
 #set _thume_tbook_glyph  \u2318
+set _thume_tbox_glyph  \u2601\uFE0E
 
 # Colors
 set _thume_lt_green   brgreen

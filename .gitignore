@@ -6,5 +6,5 @@ bin/tboxSync
 *.pyc
 ranger/ranger.config/bookmarks
 ranger/ranger.config/history
-fish/fish.config/fish_history
-fish/fish.config/fishd.*
+fish+/fish.config/fish_history
+fish+/fish.config/fishd.*

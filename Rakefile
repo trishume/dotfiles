@@ -16,6 +16,7 @@ task :install do
     if linkable.include?('.config')
       file = linkable.split('/').last.split('.config').last
       target = "#{ENV["HOME"]}/.config/#{file}"
+      puts "Linking config: #{target}"
     else
       file = linkable.split('/').last.split('.symlink').last
       target = "#{ENV["HOME"]}/.#{file}"

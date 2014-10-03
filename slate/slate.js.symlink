@@ -26,7 +26,7 @@ var appKeys = {
   'x':'Xcode',
   'g':'Github',
   'm':'Airmail',
-  'i':'iTerm2',
+  'i':'iTerm',
   'o':'MacRanger',
   'q':'Qt Creator'
 }
@@ -102,7 +102,7 @@ S.log("-- Creating layouts --")
 
 var layoutDefs = {
   "1" : {
-    "iTerm2" : m1.right,
+    "iTerm" : m1.right,
     "Path Finder" : m1.right,
     "MacVim" : m1.left,
     "Sublime Text 2" : m1.left,
@@ -112,7 +112,7 @@ var layoutDefs = {
     "Airmail" : m1.full,
   },
   "2" : {
-    "iTerm2" : m2.right,
+    "iTerm" : m2.right,
     "MacRanger" : m2.left,
     "Path Finder" : m2.left,
     "Mail" : m2.left,
