@@ -3,6 +3,7 @@ set -x PROJECTS $HOME/Box/Dev
 set -x GOPATH $HOME/Box/Dev/Langs/go
 set -x NODE_PATH /usr/local/lib/node
 set -x EDITOR vim
+set -x ALTERNATE_EDITOR vim
 set -x SITE_DEPLOY_PATH $HOME/Box/Sites/thume
 set -x LEDGER_FILE $HOME/Box/Life/me.ldg
 

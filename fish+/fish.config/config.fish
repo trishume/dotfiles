@@ -42,3 +42,4 @@ end
 alias git hub
 alias be "bundle exec"
 alias tattach "tmux -2 attach-session -t tbox"
+alias e "emacsclient -a vim -n"
