@@ -52,7 +52,7 @@ bind -t vi-copy y copy-selection
 ## set status bar
 set-option -g status-utf8 on
 set-option -g status-bg colour11
-set-option -g status-fg colour8
+set-option -g status-fg colour7
 
 #set-option -g status-left '⣿'
 #set-option -g status-right '⡇ #[bold]❐ #S:#I#[default] ⡇ #[bold]#(whoami) ● #H#[default] '

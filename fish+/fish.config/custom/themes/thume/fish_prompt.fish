@@ -37,6 +37,12 @@ set _thume_tbook_glyph  \u26A1\uFE0E
 #set _thume_tbook_glyph  \u2318
 set _thume_tbox_glyph  \u2601\uFE0E
 
+if test $MACHINE = "TBox"
+  set -g _thume_machine_glyph $_thume_tbox_glyph
+else
+  set -g _thume_machine_glyph $_thume_tbook_glyph
+end
+
 # Colors
 set _thume_lt_green   brgreen
 set _thume_med_green  green
@@ -203,7 +209,7 @@ function _thume_prompt_status -d 'Display symbols for a non zero exit status, ro
     set_color normal
   else
     _thume_start_segment white red
-    echo -n "$_thume_tbook_glyph "
+    echo -n "$_thume_machine_glyph "
   end
 end
 

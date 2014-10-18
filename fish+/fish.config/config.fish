@@ -2,6 +2,12 @@
 set fish_path $HOME/.oh-my-fish
 set -x FISH $HOME/.config/fish
 
+if test (hostname) = "Tbox3"
+  set -x MACHINE TBox
+else
+  set -x MACHINE TBook
+end
+
 . $FISH/env.fish
 
 set fish_custom $HOME/.config/fish/custom
@@ -10,7 +16,11 @@ set fish_theme thume
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-fish/plugins/*)
 # Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
 # Example format: set fish_plugins autojump bundler
-set fish_plugins bundler localhost percol gi
+if test $MACHINE = "TBox"
+  set fish_plugins bundler rvm
+else
+  set fish_plugins bundler localhost percol gi
+end
 
 # Load oh-my-fish configuration.
 . $fish_path/oh-my-fish.fish
