@@ -1,3 +1,4 @@
+// -*- Javascript -*-
 S.log("-- Starting config --");
 var config = {
   defaultToCurrentScreen : true,
@@ -16,7 +17,7 @@ S.cfga(config);
 
 
 var browser = "Google Chrome"
-var editor = "Sublime Text"
+var editor = "Emacs"
 
 var hyper = "ctrl"
 

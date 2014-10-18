@@ -2,9 +2,37 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in the home directory.
 
+;; Misc Snippets
+
+;; Keybinds
+(global-set-key [(hyper a)] 'mark-whole-buffer)
+(global-set-key [(hyper v)] 'yank)
+(global-set-key [(hyper c)] 'kill-ring-save)
+(global-set-key [(hyper s)] 'save-buffer)
+(global-set-key [(hyper l)] 'goto-line)
+(global-set-key [(hyper w)]
+                (lambda () (interactive) (delete-window)))
+(global-set-key [(hyper z)] 'undo)
+
+;; mac switch meta key
+(defun mac-switch-meta nil
+  "switch meta between Option and Command"
+  (interactive)
+  (if (eq mac-option-modifier nil)
+      (progn
+  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'hyper)
+  )
+    (progn
+      (setq mac-option-modifier nil)
+      (setq mac-command-modifier 'meta)
+      )
+    )
+  )
+
 ;; Variables
 
-(defvar dotspacemacs-configuration-layers '()
+(defvar dotspacemacs-configuration-layers '(themes-megapack)
   "List of contribution to load."
 )
 
@@ -23,4 +51,5 @@ specified with an installed package."
 (defun dotspacemacs/config ()
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
+  (mac-switch-meta)
 )
