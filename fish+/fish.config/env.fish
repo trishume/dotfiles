@@ -13,8 +13,8 @@ set -x LEDGER_FILE $HOME/Box/Life/me.ldg
 if test $MACHINE = "TBox"
   set PATH /usr/local/bin $PATH # misc
 else # Tbook
-  set PATH $PATH /Applications/Julia.app/Contents/Resources/julia/bin # Julia
-  set PATH /Applications/Racket6.1/bin $PATH # racket
+  # set PATH $PATH /Applications/Julia.app/Contents/Resources/julia/bin # Julia
+  set PATH /Applications/Racket/bin $PATH # racket
   set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt
   set PATH $HOME/Library/Haskell/bin $PATH # Haskell platform
   set PATH $GOPATH/bin $PATH /usr/local/opt/go/libexec/bin # go

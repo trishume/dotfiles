@@ -4,10 +4,20 @@
 
 ;; Misc Snippets
 
+(defun my-copy ()
+  (interactive)
+  (mac-handle-copy nil))
+
+(defun my-paste ()
+  (interactive)
+  (setq x-select-enable-clipboard t)
+  (yank)
+  (setq x-select-enable-clipboard nil))
+
 ;; Keybinds
 (global-set-key [(hyper a)] 'mark-whole-buffer)
-(global-set-key [(hyper v)] 'yank)
-(global-set-key [(hyper c)] 'kill-ring-save)
+(global-set-key [(hyper v)] 'my-paste)
+(global-set-key [(hyper c)] 'my-copy)
 (global-set-key [(hyper s)] 'save-buffer)
 (global-set-key [(hyper l)] 'goto-line)
 (global-set-key [(hyper w)]
@@ -17,22 +27,53 @@
 ;; mac switch meta key
 (defun mac-switch-meta nil
   "switch meta between Option and Command"
-  (interactive)
-  (if (eq mac-option-modifier nil)
-      (progn
   (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'hyper)
   )
-    (progn
-      (setq mac-option-modifier nil)
-      (setq mac-command-modifier 'meta)
-      )
-    )
-  )
+
+;; (setq ns-pop-up-frames t)
+;; (setq mac-mouse-wheel-smooth-scroll t)
+;; (setq dnd-open-file-other-window t)
+(setq x-select-enable-clipboard nil)
+
+(defun my-open-file (orig-fun &rest args)
+  (let* ((f (dnd-get-local-file-name (car args) t)))
+    (if (and f (file-accessible-directory-p f))
+        (find-file-other-frame f)
+        (apply orig-fun args))))
+
+(advice-add 'dnd-open-local-file :around #'my-open-file)
+
+;; esc quits
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+; (define-key evil-normal-state-map [escape] 'keyboard-quit)
+; (define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+; (global-set-key [escape] 'evil-exit-emacs-state)
 
 ;; Variables
 
-(defvar dotspacemacs-configuration-layers '(themes-megapack)
+(defconst dotspacemacs-version 1
+  "The version number of this file.")
+
+(defvar dotspacemacs-configuration-layer-path '()
+  "List of additional paths where to look for configuration layers.
+Paths must have a trailing slash (ie. `~/.mycontribs/')"
+)
+
+(defvar dotspacemacs-configuration-layers '(trishume themes-megapack)
   "List of contribution to load."
 )
 
@@ -40,6 +81,9 @@
   "The default package repository used if no explicit repository has been
 specified with an installed package."
 )
+
+(defvar dotspacemacs-excluded-packages '(jedi)
+  "A list of packages and/or extensions that will not be install and loaded.")
 
 ;; Functions
 
@@ -52,4 +96,8 @@ specified with an installed package."
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
-)
+
+  (setq evil-move-cursor-back nil)
+  (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
+  (setq TeX-view-program-list
+       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b"))))
