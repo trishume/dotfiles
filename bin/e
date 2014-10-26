@@ -16,7 +16,7 @@
 
 if test "$1" == ""
 then
-  $($EDITOR .)
+  emacsclient -n -c .
 else
-  $($EDITOR $1)
+  emacsclient -n $1
 fi
