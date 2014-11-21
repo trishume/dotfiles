@@ -2,6 +2,8 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in the home directory.
 
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 ;; Misc Snippets
 
 (defun my-copy ()
@@ -65,31 +67,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Variables
 
-(defconst dotspacemacs-version 1
-  "The version number of this file.")
+(setq-default dotspacemacs-configuration-layers '(trishume ranger-control company-mode))
 
-(defvar dotspacemacs-configuration-layer-path '()
-  "List of additional paths where to look for configuration layers.
-Paths must have a trailing slash (ie. `~/.mycontribs/')"
-)
+(setq-default dotspacemacs-excluded-packages
+              '(jedi))
 
-(defvar dotspacemacs-configuration-layers '(trishume themes-megapack)
-  "List of contribution to load."
-)
-
-(defvar dotspacemacs-default-package-repository 'melpa-stable
-  "The default package repository used if no explicit repository has been
-specified with an installed package."
-)
-
-(defvar dotspacemacs-excluded-packages '(jedi)
-  "A list of packages and/or extensions that will not be install and loaded.")
+(defun my-stop-fricking-auto-newline ()
+  'stop)
 
 ;; Functions
 
 (defun dotspacemacs/init ()
   "User initialization for Spacemacs. This function is called at the very
  startup."
+  (setq-default ycmd-server-command '("python" "/Users/tristan/bin/ycmd/ycmd"))
 )
 
 (defun dotspacemacs/config ()
@@ -97,7 +88,46 @@ specified with an installed package."
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
 
+  (setq-default projectile-enable-caching nil)
+
+  (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#deskthority" "#geekhack")))
+
+  (setq auto-mode-alist (cons '("\\.h$"   . c++-mode)  auto-mode-alist))
+
+  (setq-default scss-compile-at-save nil)
+  (setq-default lua-indent-level 2)
+  (setq-default c-default-style "java"
+                c-basic-offset 2
+                c-toggle-hungry-state 1
+                c-toggle-auto-newline -1)
+  (setq-default c-hanging-semi&comma-criteria '(my-stop-fricking-auto-newline))
+
   (setq evil-move-cursor-back nil)
   (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
   (setq TeX-view-program-list
-       '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b"))))
+        '(("PDF Viewer" "/Applications/Skim.app/Contents/SharedSupport/displayline -b -g %n %o %b"))))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ac-ispell-requires 4)
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ahs-idle-interval 0.25)
+ '(ahs-inhibit-face-list nil)
+ '(ledger-post-account-alignment-column 2)
+ '(racket-program "/Applications/Racket/bin/racket")
+ '(raco-program "/Applications/Racket/bin/raco")
+ '(ring-bell-function (quote ignore) t)
+ '(safe-local-variable-values
+   (quote
+    ((flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
