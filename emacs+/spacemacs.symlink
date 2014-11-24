@@ -88,7 +88,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
 
-  (setq-default projectile-enable-caching nil)
+  ;; (setq-default projectile-enable-caching nil)
 
   (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#deskthority" "#geekhack")))
 
