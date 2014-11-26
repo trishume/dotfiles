@@ -289,14 +289,18 @@ end
 # Apply theme
 # ===========================
 
-function fish_prompt -d 'bobthefish, a fish theme optimized for awesome'
+function fish_prompt -d 'Tristan theme, based on bobthefish'
   set -g RETVAL $status
-  _thume_prompt_status
-  _thume_prompt_time
-  if _thume_in_git
-    _thume_prompt_git
+  if test $TERM = "dumb"
+    echo "\$ "
   else
-    _thume_prompt_dir
+    _thume_prompt_status
+    _thume_prompt_time
+    if _thume_in_git
+      _thume_prompt_git
+    else
+      _thume_prompt_dir
+    end
+    _thume_finish_segments
   end
-  _thume_finish_segments
 end
