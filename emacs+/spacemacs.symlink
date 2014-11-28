@@ -25,6 +25,7 @@
 (global-set-key [(hyper w)]
                 (lambda () (interactive) (delete-window)))
 (global-set-key [(hyper z)] 'undo)
+(global-set-key [(hyper q)] 'save-buffers-kill-emacs)
 
 ;; mac switch meta key
 (defun mac-switch-meta nil
@@ -67,7 +68,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Variables
 
-(setq-default dotspacemacs-configuration-layers '(trishume ranger-control company-mode))
+(setq-default dotspacemacs-configuration-layers '(trishume ranger-control company-mode paradox))
 
 (setq-default dotspacemacs-excluded-packages
               '(jedi))
@@ -118,12 +119,14 @@ This function is called at the very end of Spacemacs initialization."
  '(ahs-idle-interval 0.25)
  '(ahs-inhibit-face-list nil)
  '(ledger-post-account-alignment-column 2)
+ '(paradox-github-token t)
  '(racket-program "/Applications/Racket/bin/racket")
  '(raco-program "/Applications/Racket/bin/raco")
  '(ring-bell-function (quote ignore) t)
  '(safe-local-variable-values
    (quote
-    ((flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3")))))
+    ((flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3"))))
+ '(sp-autoescape-string-quote nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
