@@ -104,7 +104,7 @@ local gobig = {x = 0, y = 0, w = gw, h = gh}
 
 local fullApps = {
   "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome",
-  "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes", "Emacs"
+  "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes", "Emacs", "Firefox"
 }
 local layout2 = {
   Airmail = {1, gomiddle},
