@@ -2,7 +2,6 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in the home directory.
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Misc Snippets
 
@@ -43,7 +42,7 @@
   (let* ((f (dnd-get-local-file-name (car args) t)))
     (if (and f (file-accessible-directory-p f))
         (find-file-other-frame f)
-        (apply orig-fun args))))
+      (apply orig-fun args))))
 
 (advice-add 'dnd-open-local-file :around #'my-open-file)
 
@@ -57,14 +56,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (setq deactivate-mark  t)
     (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
     (abort-recursive-edit)))
-; (define-key evil-normal-state-map [escape] 'keyboard-quit)
-; (define-key evil-visual-state-map [escape] 'keyboard-quit)
+;; (define-key evil-normal-state-map [escape] 'keyboard-quit)
+;; (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-; (global-set-key [escape] 'evil-exit-emacs-state)
+;; (global-set-key [escape] 'evil-exit-emacs-state)
 
 ;; Variables
 
@@ -81,13 +80,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (defun dotspacemacs/init ()
   "User initialization for Spacemacs. This function is called at the very
  startup."
-  (setq-default ycmd-server-command '("python" "/Users/tristan/bin/ycmd/ycmd"))
-)
+  )
 
 (defun dotspacemacs/config ()
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   ;; (setq-default projectile-enable-caching nil)
 
