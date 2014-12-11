@@ -36,9 +36,12 @@ set _thume_bg_job_glyph            '% '
 set _thume_tbook_glyph  \u26A1\uFE0E
 #set _thume_tbook_glyph  \u2318
 set _thume_tbox_glyph  \u2601\uFE0E
+set _thume_wiki_glyph  W
 
 if test $MACHINE = "TBox"
   set -g _thume_machine_glyph $_thume_tbox_glyph
+else if test $MACHINE = "WikiBox"
+  set -g _thume_machine_glyph $_thume_wiki_glyph
 else
   set -g _thume_machine_glyph $_thume_tbook_glyph
 end

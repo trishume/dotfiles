@@ -4,6 +4,8 @@ set -x FISH $HOME/.config/fish
 
 if test (hostname) = "Tbox3"
   set -x MACHINE TBox
+else if test (hostname) = "WikiBox"
+  set -x MACHINE WikiBox
 else
   set -x MACHINE TBook
 end
@@ -16,8 +18,10 @@ set fish_theme thume
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-fish/plugins/*)
 # Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
 # Example format: set fish_plugins autojump bundler
-if test $MACHINE = "TBox"
+if test $MACHINE = "TBook"
   set fish_plugins bundler rvm
+else if test $MACHINE = "WikiBox"
+  set fish_plugins bundler
 else
   set fish_plugins bundler localhost percol gi
 end
