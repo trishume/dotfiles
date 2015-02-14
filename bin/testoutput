@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+require "yaml"
+require "open3"
+
+conf = YAML.load(IO.read("tests.yml"))
+
+anyfail = false
+conf["tests"].each_with_index do |test,i|
+  unless conf['command'] && test['in'] && test['out']
+    puts "# Invalid test: #{test}"
+    anyfail = true
+    next
+  end
+  output,status = Open3.capture2(conf['command'], stdin_data: test['in'])
+  unless status == 0
+    puts "# Test failed with code #{status}: #{test}"
+    anyfail = true
+    next
+  end
+  unless output == test['out']
+    STDERR.puts "# Test #{i} failed!"
+    puts "# Output:"
+    puts output
+    puts "# Did not match expected:"
+    puts test['out']
+    anyfail = true
+    next
+  end
+  puts "# Passed test #{i}!"
+end
+exit 1 if anyfail
