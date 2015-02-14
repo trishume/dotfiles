@@ -14,6 +14,7 @@ local appfinder = require "mjolnir.cmsj.appfinder"
 
 local definitions = nil
 local hyper = nil
+local hyper2 = nil
 
 local gridset = function(frame)
 	return function()
@@ -44,6 +45,8 @@ function createHotkeys()
     local mod = hyper
     if string.len(key) == 2 and string.sub(key,2,2) == "c" then
       mod = {"cmd"}
+    elseif string.len(key) == 2 and string.sub(key,2,2) == "l" then
+      mod = {"ctrl"}
     end
 
     local hk = hotkey.new(mod, string.sub(key,1,1), fun)
@@ -83,12 +86,14 @@ end
 function init()
   createHotkeys()
   keycodes.inputsourcechanged(rebindHotkeys)
+
   alert.show("Mjolnir, at your service.")
 end
 
 -- Actual config =================================
 
 hyper = {"cmd", "alt", "ctrl","shift"}
+hyper2 = {"ctrl"}
 -- Set grid size.
 grid.GRIDWIDTH  = 6
 grid.GRIDHEIGHT = 8
@@ -133,6 +138,7 @@ definitions = {
 
   k = function() hints.appHints(appfinder.app_from_name("Emacs")) end,
   j = function() hints.appHints(window.focusedwindow():application()) end,
+  ll = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
   ec = hints.windowHints
 }
 

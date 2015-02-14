@@ -6,6 +6,9 @@ set -x EDITOR vim
 set -x ALTERNATE_EDITOR vim
 set -x SITE_DEPLOY_PATH $HOME/Box/Sites/thume
 set -x LEDGER_FILE $HOME/Box/Life/me.ldg
+if test $MACHINE = "TBook"
+  set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
+end
 
 # PATH Setup
 
