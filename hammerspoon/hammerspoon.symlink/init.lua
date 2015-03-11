@@ -1,16 +1,14 @@
 -- Load Extensions
-local application = require "mjolnir.application"
-local window = require "mjolnir.window"
-local hotkey = require "mjolnir.hotkey"
-local keycodes = require "mjolnir.keycodes"
-local fnutils = require "mjolnir.fnutils"
-local alert = require "mjolnir.alert"
-local screen = require "mjolnir.screen"
--- User packages
-local grid = require "mjolnir.bg.grid"
-local spotify = require "mjolnir.lb.spotify"
-local hints = require "mjolnir.th.hints"
-local appfinder = require "mjolnir.cmsj.appfinder"
+local application = require "hs.application"
+local window = require "hs.window"
+local hotkey = require "hs.hotkey"
+local keycodes = require "hs.keycodes"
+local fnutils = require "hs.fnutils"
+local alert = require "hs.alert"
+local screen = require "hs.screen"
+local grid = require "hs.grid"
+local hints = require "hs.hints"
+local appfinder = require "hs.appfinder"
 
 local definitions = nil
 local hyper = nil
@@ -18,7 +16,7 @@ local hyper2 = nil
 
 local gridset = function(frame)
 	return function()
-		local win = window.focusedwindow()
+		local win = window.focusedWindow()
 		if win then
 			grid.set(win, frame, win:screen())
 		else
@@ -29,7 +27,7 @@ end
 
 auxWin = nil
 function saveFocus()
-  auxWin = window.focusedwindow()
+  auxWin = window.focusedWindow()
   alert.show("Window '" .. auxWin:title() .. "' saved.")
 end
 function focusSaved()
@@ -65,7 +63,7 @@ function rebindHotkeys()
 end
 
 function applyPlace(win, place)
-  local scrs = screen:allscreens()
+  local scrs = screen:allScreens()
   local scr = scrs[place[1]]
   grid.set(win, place[2], scr)
 end
@@ -73,9 +71,9 @@ end
 function applyLayout(layout)
   return function()
     for appName, place in pairs(layout) do
-      local app = appfinder.app_from_name(appName)
+      local app = appfinder.appFromName(appName)
       if app then
-        for i, win in ipairs(app:allwindows()) do
+        for i, win in ipairs(app:allWindows()) do
           applyPlace(win, place)
         end
       end
@@ -85,15 +83,16 @@ end
 
 function init()
   createHotkeys()
-  keycodes.inputsourcechanged(rebindHotkeys)
+  keycodes.inputSourceChanged(rebindHotkeys)
 
-  alert.show("Mjolnir, at your service.")
+  alert.show("Hammerspoon, at your service.")
 end
 
 -- Actual config =================================
 
 hyper = {"cmd", "alt", "ctrl","shift"}
 hyper2 = {"ctrl"}
+hs.window.animationDuration = 0;
 -- Set grid size.
 grid.GRIDWIDTH  = 6
 grid.GRIDHEIGHT = 8
@@ -127,17 +126,17 @@ definitions = {
 
   h = gridset(gomiddle),
   t = gridset(goleft),
-  n = grid.maximize_window,
+  n = grid.maximizeWindow,
   s = gridset(goright),
 
   g = applyLayout(layout2),
 
-  d = grid.pushwindow_nextscreen,
-  r = mjolnir.reload,
-  q = function() appfinder.app_from_name("Mjolnir"):kill() end,
+  d = grid.pushWindowNextScreen,
+  r = hs.reload,
+  q = function() appfinder.appFromName("Hammerspoon"):kill() end,
 
-  k = function() hints.appHints(appfinder.app_from_name("Emacs")) end,
-  j = function() hints.appHints(window.focusedwindow():application()) end,
+  -- k = function() hints.appHints(appfinder.appFromName("Emacs")) end,
+  j = function() hints.appHints(window.focusedWindow():application()) end,
   ll = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
   ec = hints.windowHints
 }
@@ -147,10 +146,13 @@ fnutils.each({
   { key = "o", app = "MacRanger" },
   { key = "e", app = "Google Chrome" },
   { key = "u", app = "Emacs" },
-  { key = "i", app = "iTerm" },
+  { key = "i", app = "iTerm2" },
   { key = "m", app = "Airmail" }
 }, function(object)
-    definitions[object.key] = function() application.launchorfocus(object.app) end
+    definitions[object.key] = function()
+      local app = appfinder.appFromName(object.app)
+      if app then app:activate() end
+    end
 end)
 
 init()

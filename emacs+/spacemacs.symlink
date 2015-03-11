@@ -72,7 +72,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Variables
 
 (setq-default dotspacemacs-configuration-layers
-              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd smex dash colors lua trishume tex-math-magic))
+              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd smex dash colors lua trishume tex-math-magic markdown finance))
 
 (setq-default dotspacemacs-excluded-packages
               '(jedi))
@@ -113,7 +113,7 @@ This function is called at the very end of Spacemacs initialization."
   (setq-default web-mode-markup-indent-offset 2
                 web-mode-css-indent-offset 2
                 web-mode-code-indent-offset 2)
-  (setq-default c-default-style "java"
+  (setq-default c-default-style "k&r"
                 c-basic-offset 2
                 c-toggle-hungry-state 1
                 c-toggle-auto-newline -1)
