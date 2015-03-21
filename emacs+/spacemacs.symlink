@@ -139,6 +139,7 @@ This function is called at the very end of Spacemacs initialization."
  '(ahs-inhibit-face-list nil)
  '(ledger-post-account-alignment-column 2)
  '(paradox-github-token t)
+ '(racket-memory-limit 128)
  '(racket-program "/Applications/Racket/bin/racket")
  '(racket-racket-program "/Applications/Racket/bin/racket")
  '(racket-raco-program "/Applications/Racket/bin/raco")

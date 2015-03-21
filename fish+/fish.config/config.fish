@@ -19,7 +19,7 @@ set fish_theme thume
 # Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
 # Example format: set fish_plugins autojump bundler
 if test $MACHINE = "TBook"
-  set fish_plugins bundler rvm
+  set fish_plugins bundler rvm localhost balias
 else if test $MACHINE = "WikiBox"
   set fish_plugins bundler
 else
@@ -51,7 +51,10 @@ function ranger_shell_tab --on-variable PWD --description 'Update the ranger tab
   curl -X POST --data $PWD --connect-timeout 0.05 http://localhost:5964/cdtab-s 2> /dev/null
 end
 
-alias git hub
+balias git hub
 alias be "bundle exec"
 alias tattach "tmux -2 attach-session -t tbox"
 alias e "emacsclient -a vim -n -c"
+alias scp-resume "rsync --partial -av --progress --rsh=ssh"
+
+. $FISH/iterm.fish
