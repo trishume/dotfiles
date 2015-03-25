@@ -51,10 +51,12 @@ function ranger_shell_tab --on-variable PWD --description 'Update the ranger tab
   curl -X POST --data $PWD --connect-timeout 0.05 http://localhost:5964/cdtab-s 2> /dev/null
 end
 
-balias git hub
+alias git hub
 alias be "bundle exec"
 alias tattach "tmux -2 attach-session -t tbox"
 alias e "emacsclient -a vim -n -c"
 alias scp-resume "rsync --partial -av --progress --rsh=ssh"
 
-. $FISH/iterm.fish
+if test $MACHINE = "TBook"
+  . $FISH/iterm.fish
+end
