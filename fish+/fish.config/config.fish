@@ -19,11 +19,11 @@ set fish_theme thume
 # Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
 # Example format: set fish_plugins autojump bundler
 if test $MACHINE = "TBook"
-  set fish_plugins bundler rvm localhost balias
+  set fish_plugins bundler localhost balias
 else if test $MACHINE = "WikiBox"
   set fish_plugins bundler
 else
-  set fish_plugins bundler localhost percol gi
+  set fish_plugins bundler localhost percol gi rvm
 end
 
 # Load oh-my-fish configuration.

@@ -21,6 +21,7 @@ else # Tbook
   set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt
   set PATH $HOME/Library/Haskell/bin $PATH # Haskell platform
   set PATH $GOPATH/bin $PATH /usr/local/opt/go/libexec/bin # go
+  set PATH $HOME/.nimble/bin $PATH # Nim
   # set PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH # emacs
   set PATH /usr/local/share/npm/bin $PATH # Node binaries
   set PATH /usr/local/opt/ruby/bin $PATH # Ruby executables
