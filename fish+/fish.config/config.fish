@@ -4,7 +4,7 @@ set -x FISH $HOME/.config/fish
 
 if test (hostname) = "Tbox3"
   set -x MACHINE TBox
-else if test (hostname) = "WikiBox"
+else if test (hostname) = "WikiBox" -o (hostname) = "WikiBox2"
   set -x MACHINE WikiBox
 else
   set -x MACHINE TBook

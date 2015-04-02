@@ -72,7 +72,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Variables
 
 (setq-default dotspacemacs-configuration-layers
-              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd smex dash colors lua trishume tex-math-magic markdown finance))
+              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd smex dash colors lua trishume tex-math-magic markdown racket finance))
 
 (setq-default dotspacemacs-excluded-packages
               '(jedi))
@@ -93,6 +93,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  (add-to-list 'exec-path "/Users/tristan/Library/Haskell/bin/" "/Users/tristan/box/")
  (add-to-list 'exec-path "/Applications/Racket/bin/")
  (set-variable 'ycmd-server-command '("python" "/Users/tristan/bin/ycmd/ycmd"))
+ ;; (setq-default solarized-high-contrast-mode-line t)
   )
 
 (defun dotspacemacs/config ()
@@ -107,6 +108,7 @@ This function is called at the very end of Spacemacs initialization."
 
   (setq auto-mode-alist (cons '("\\.h$"   . c++-mode)  auto-mode-alist))
 
+  (setq-default company-idle-delay 0.0)
   (setq-default scss-compile-at-save nil)
   (setq-default lua-indent-level 2
                 evil-shift-width 2)
@@ -147,7 +149,11 @@ This function is called at the very end of Spacemacs initialization."
  '(ring-bell-function (quote ignore) t)
  '(safe-local-variable-values
    (quote
-    ((flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3"))))
+    ((eval when
+           (fboundp
+            (quote rainbow-mode))
+           (rainbow-mode 1))
+     (flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3"))))
  '(sp-autoescape-string-quote nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -93,6 +93,7 @@ end
 hyper = {"cmd", "alt", "ctrl","shift"}
 hyper2 = {"ctrl"}
 hs.window.animationDuration = 0;
+-- hints.style = "vimperator"
 -- Set grid size.
 grid.GRIDWIDTH  = 6
 grid.GRIDHEIGHT = 8
@@ -135,10 +136,10 @@ definitions = {
   r = hs.reload,
   q = function() appfinder.appFromName("Hammerspoon"):kill() end,
 
-  -- k = function() hints.appHints(appfinder.appFromName("Emacs")) end,
-  j = function() hints.appHints(window.focusedWindow():application()) end,
+  k = function() hints.windowHints(appfinder.appFromName("Emacs"):allWindows()) end,
+  j = function() hints.windowHints(window.focusedWindow():application():allWindows()) end,
   ll = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
-  ec = hints.windowHints
+  ec = function() hints.windowHints(nil) end
 }
 
 -- launch and focus applications
