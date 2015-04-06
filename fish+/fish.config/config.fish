@@ -57,6 +57,6 @@ alias tattach "tmux -2 attach-session -t tbox"
 alias e "emacsclient -a vim -n -c"
 alias scp-resume "rsync --partial -av --progress --rsh=ssh"
 
-if test $MACHINE = "TBook"
-  . $FISH/iterm.fish
-end
+# if test $MACHINE = "TBook"
+#   . $FISH/iterm.fish
+# end

@@ -72,7 +72,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;; Variables
 
 (setq-default dotspacemacs-configuration-layers
-              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd smex dash colors lua trishume tex-math-magic markdown racket finance auto-completion))
+              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance auto-completion))
 
 (setq-default dotspacemacs-excluded-packages
               '(jedi))
@@ -93,6 +93,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  (add-to-list 'exec-path "/Users/tristan/Library/Haskell/bin/" "/Users/tristan/box/")
  (add-to-list 'exec-path "/Applications/Racket/bin/")
  (set-variable 'ycmd-server-command '("python" "/Users/tristan/bin/ycmd/ycmd"))
+ (setq evil-escape-key-sequence "mw")
  ;; (setq-default solarized-high-contrast-mode-line t)
   )
 
@@ -100,6 +101,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
+
+  (evil-leader/set-key
+    "oa" 'helm-apropos
+    ";" 'helm-M-x
+    "oe" 'eval-expression)
 
   ;; Delete trailing whitespace on save instead of showing it
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -119,8 +125,8 @@ This function is called at the very end of Spacemacs initialization."
   (setq auto-mode-alist (cons '("\\.h$"   . c++-mode)  auto-mode-alist))
 
   (setq-default company-idle-delay 0.0
+                system-uses-terminfo nil
                 helm-pt-insert-at-point nil
-                evil-escape-key-sequence "mw"
                 scss-compile-at-save nil
                 lua-indent-level 2
                 evil-shift-width 2
