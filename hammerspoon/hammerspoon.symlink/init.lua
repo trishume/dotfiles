@@ -10,6 +10,8 @@ local grid = require "hs.grid"
 local hints = require "hs.hints"
 local appfinder = require "hs.appfinder"
 
+local tabs = require "tabs"
+
 local definitions = nil
 local hyper = nil
 local hyper2 = nil
@@ -84,6 +86,8 @@ end
 function init()
   createHotkeys()
   keycodes.inputSourceChanged(rebindHotkeys)
+  -- tabs.enableForApp(appfinder.appFromName("Finder"))
+  tabs.enableForApp(appfinder.appFromName("Emacs"))
 
   alert.show("Hammerspoon, at your service.")
 end
