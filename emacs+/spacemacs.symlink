@@ -2,6 +2,12 @@
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in the home directory.
 
+(setq-default dotspacemacs-configuration-layers
+              '(
+                ;; (perspectives :variables perspective-enable-persp-projectile t)
+                (auto-completion :variables auto-completion-use-tab-instead-of-enter t)
+                (git :variables git-enable-github-support t)
+                extra-langs auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell))
 
 ;; Misc Snippets
 
@@ -71,8 +77,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Variables
 
-(setq-default dotspacemacs-configuration-layers
-              '(extra-langs auctex ranger-control company-mode git c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance auto-completion))
 
 (setq-default dotspacemacs-excluded-packages
               '(jedi))
@@ -93,7 +97,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
  (add-to-list 'exec-path "/Users/tristan/Library/Haskell/bin/" "/Users/tristan/box/")
  (add-to-list 'exec-path "/Applications/Racket/bin/")
  (set-variable 'ycmd-server-command '("python" "/Users/tristan/bin/ycmd/ycmd"))
- (setq evil-escape-key-sequence "mw")
+ (setq evil-escape-key-sequence "mw"
+       ;; dotspacemacs-smartparens-strict-mode t
+       ;; dotspacemacs-search-tools '("pt" "ag" "ack" "grep")
+       )
  ;; (setq-default solarized-high-contrast-mode-line t)
   )
 
@@ -108,25 +115,29 @@ This function is called at the very end of Spacemacs initialization."
     "oe" 'eval-expression)
 
   ;; Delete trailing whitespace on save instead of showing it
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'before-save-hook '(lambda (when (not (eq? major-mode 'org-mode)) delete-trailing-whitespace)))
   (add-hook 'prog-mode-hook (lambda ()
                               (interactive)
                               (setq show-trailing-whitespace nil)) t)
   ;; Disable smartparens for most pairs, my editing style doesn't play well with it
-  (eval-after-load 'smartparens
-    '(progn
-       (sp-pair "(" nil :actions :rem)
-       (sp-pair "[" nil :actions :rem)
-       (sp-pair "'" nil :actions :rem)
-       (sp-pair "\"" nil :actions :rem)))
+  ;; (eval-after-load 'smartparens
+  ;;   '(progn
+  ;;      (sp-pair "(" nil :actions :rem)
+  ;;      (sp-pair "[" nil :actions :rem)
+  ;;      (sp-pair "'" nil :actions :rem)
+  ;;      (sp-pair "\"" nil :actions :rem)))
 
-  (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#deskthority" "#geekhack" "#csc")))
+  (setq deft-directory "~/Box/Notes"
+        erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#deskthority" "#geekhack" "#csc")))
 
-  (setq auto-mode-alist (cons '("\\.h$"   . c++-mode)  auto-mode-alist))
+  (push '("\\.h$" . c++-mode) auto-mode-alist)
 
   (setq-default company-idle-delay 0.0
+                vc-follow-symlinks t
                 system-uses-terminfo nil
+                git-gutter-fr:side 'left-fringe
                 helm-pt-insert-at-point nil
+                helm-ag-insert-at-point nil
                 scss-compile-at-save nil
                 lua-indent-level 2
                 evil-shift-width 2
@@ -140,6 +151,9 @@ This function is called at the very end of Spacemacs initialization."
                 c-hanging-semi&comma-criteria '(my-stop-fricking-auto-newline))
 
   (global-hungry-delete-mode)
+  (global-company-mode)
+  (add-hook 'markdown-mode-hook '(lambda () (company-mode -1)))
+  (add-hook 'org-mode-hook '(lambda () (company-mode -1)))
 
   (setq evil-move-cursor-back nil)
   (setq TeX-view-program-selection '((output-pdf "PDF Viewer")))
