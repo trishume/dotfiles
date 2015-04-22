@@ -86,8 +86,7 @@ end
 function init()
   createHotkeys()
   keycodes.inputSourceChanged(rebindHotkeys)
-  -- tabs.enableForApp(appfinder.appFromName("Finder"))
-  tabs.enableForApp(appfinder.appFromName("Emacs"))
+  tabs.enableForApp("Emacs")
 
   alert.show("Hammerspoon, at your service.")
 end
@@ -159,5 +158,12 @@ fnutils.each({
       if app then app:activate() end
     end
 end)
+
+for i=1,6 do
+  definitions[tostring(i)] = function()
+    local app = application.frontmostApplication()
+    tabs.focusTab(app,i)
+  end
+end
 
 init()

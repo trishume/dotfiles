@@ -3,6 +3,9 @@ local uielement = require "hs.uielement"
 local watcher = uielement.watcher
 local fnutils = require "hs.fnutils"
 local timer = require "hs.timer"
+local application = require "hs.application"
+local appwatcher = application.watcher
+local appfinder = require "hs.appfinder"
 
 
 
@@ -29,31 +32,35 @@ local function realWindow(win)
   return (win:isStandard() and win:role() ~= "AXScrollArea")
 end
 
-local function tabWindows(app)
+function tabs.tabWindows(app)
   local tabWins = fnutils.filter(app:allWindows(),realWindow)
   table.sort(tabWins, function(a,b) return a:title() < b:title() end)
   return tabWins
 end
 
 local drawTable = {}
-local function trashTabs(app)
-  local tab = drawTable[app:bundleID()]
-  drawTable[app:bundleID()] = {}
+local function trashTabs(pid)
+  local tab = drawTable[pid]
   if not tab then return end
   for i,obj in ipairs(tab) do
     obj:delete()
   end
 end
 local function drawTabs(app)
-  trashTabs(app)
+  local pid = app:pid()
+  trashTabs(pid)
+  drawTable[pid] = {}
   local proto = app:focusedWindow()
   if not proto or not app:isFrontmost() then return end
   local geom = app:focusedWindow():frame()
 
-  local tabWins = tabWindows(app)
+  local tabWins = tabs.tabWindows(app)
   local pt = {x = geom.x+geom.w-tabs.leftPad, y = geom.y+tabs.topPad}
-  local objs = drawTable[app:bundleID()]
-  for i,win in ipairs(tabWins) do
+  local objs = drawTable[pid]
+  -- iterate in reverse order because we draw right to left
+  local numTabs = #tabWins
+  for i=0,(numTabs-1) do
+    local win = tabWins[numTabs-i]
     pt.x = pt.x - tabs.tabWidth - tabs.tabPad
     local r = drawing.rectangle({x=pt.x,y=pt.y,w=tabs.tabWidth,h=tabs.tabHeight})
     r:setFill(true)
@@ -107,12 +114,7 @@ local function manageWindow(win, app)
   end
 end
 
-function tabs.enableForApp(app)
-  if not app:isApplication() then
-    print("Warning: Can only enable tabs for an application object")
-    return
-  end
-
+local function watchApp(app)
   -- print("Enabling tabs for " .. app:title())
   for i,win in ipairs(app:allWindows()) do
     manageWindow(win,app)
@@ -124,6 +126,42 @@ function tabs.enableForApp(app)
                      watcher.applicationHidden, watcher.focusedWindowChanged})
 
   reshuffle(app)
+end
+
+local appWatcherStarted = false
+local appWatches = {}
+function tabs.enableForApp(appName)
+  appWatches[appName] = true
+
+  -- might already be running
+  local runningApp = appfinder.appFromName(appName)
+  if runningApp then
+    watchApp(runningApp)
+  end
+
+  -- set up a watcher to catch any watched app launching or terminating
+  if appWatcherStarted then return end
+  appWatcherStarted = true
+  local watch = appwatcher.new(function(name,event,app)
+      -- print("Event from " .. name)
+      if event == appwatcher.launched and appWatches[name] then
+        watchApp(app)
+      elseif event == appwatcher.terminated then
+        trashTabs(app:pid())
+      end
+  end)
+  watch:start()
+end
+
+function tabs.focusTab(app,num)
+  if not app or not appWatches[app:title()] then return end
+  local tabs = tabs.tabWindows(app)
+  local bounded = num
+  print(hs.inspect(tabs))
+  if num > #tabs then
+    bounded = #tabs
+  end
+  tabs[bounded]:focus()
 end
 
 return tabs
