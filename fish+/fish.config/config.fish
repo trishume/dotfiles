@@ -6,6 +6,10 @@ if test (hostname) = "Tbox3"
   set -x MACHINE TBox
 else if test (hostname) = "WikiBox" -o (hostname) = "WikiBox2"
   set -x MACHINE WikiBox
+else if test (hostname) = "vagrant.myshopify.io"
+  set -x MACHINE Vagrant
+else if test (hostname) = "Tristans-MacBook-Pro.local"
+  set -x MACHINE WorkBook
 else
   set -x MACHINE TBook
 end
