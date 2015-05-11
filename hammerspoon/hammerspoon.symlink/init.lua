@@ -121,6 +121,7 @@ local layout2 = {
   Dash = {1, gomiddle},
   iTerm = {2, goright},
   MacRanger = {2, goleft},
+  Mail = {2, goright},
 }
 fnutils.each(fullApps, function(app) layout2[app] = {1, gobig} end)
 

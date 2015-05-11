@@ -5,11 +5,11 @@
 (setq-default dotspacemacs-configuration-layers
               '(
                 ;; (perspectives :variables perspective-enable-persp-projectile t)
-                (auto-completion :variables auto-completion-return-key-behaviour nil
-                                 auto-completion-tab-key-behaviour 'cycle
+                (auto-completion :variables auto-completion-return-key-behavior nil
+                                 auto-completion-tab-key-behavior 'complete
                                  auto-completion-complete-with-key-sequence "ht")
                 (git :variables git-enable-github-support t)
-                extra-langs auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d editorconfig))
+                extra-langs auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d vagrant))
 
 ;; Misc Snippets
 
@@ -144,14 +144,20 @@ This function is called at the very end of Spacemacs initialization."
         erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#deskthority" "#geekhack" "#csc")))
 
   (push '("\\.h$" . c++-mode) auto-mode-alist)
+  ;; (push '("^\*helm.+\*$" :regexp t :height 0.4) popwin:special-display-config)
+  (eval-after-load 'company
+    (push 'enh-ruby-mode company-dabbrev-code-modes))
 
   (setq-default company-idle-delay 0.0
+                ;; org-bullets-bullet-list '("■" "◆" "▲" "▶")
                 vc-follow-symlinks t
                 system-uses-terminfo nil
                 git-gutter-fr:side 'left-fringe
                 helm-pt-insert-at-point nil
                 helm-ag-insert-at-point nil
                 scss-compile-at-save nil
+                ruby-deep-indent-paren nil
+                enh-ruby-deep-indent-paren nil
                 lua-indent-level 2
                 json-encoding-default-indentation 2
                 evil-shift-width 2
@@ -179,7 +185,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ac-ispell-requires 4)
+ '(ac-ispell-requires 4 t)
  '(ahs-case-fold-search nil)
  '(ahs-default-range (quote ahs-range-whole-buffer))
  '(ahs-idle-interval 0.25)
@@ -193,13 +199,14 @@ This function is called at the very end of Spacemacs initialization."
  '(racket-raco-program "/Applications/Racket/bin/raco")
  '(raco-program "/Applications/Racket/bin/raco")
  '(ring-bell-function (quote ignore) t)
- '(safe-local-variable-values
-   (quote
-    ((eval when
+  '(safe-local-variable-values
+     (quote
+       ((encoding . utf-8)
+         (eval when
            (fboundp
-            (quote rainbow-mode))
+             (quote rainbow-mode))
            (rainbow-mode 1))
-     (flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3"))))
+         (flycheck-clang-include-path . "/Applications/Arduino.app/Contents/Resources/Java/hardware/teensy/cores/teensy3"))))
  '(sp-autoescape-string-quote nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

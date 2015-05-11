@@ -303,7 +303,13 @@ function fish_prompt -d 'Tristan theme, based on bobthefish'
     _thume_prompt_status
     _thume_prompt_time
     if _thume_in_git
-      _thume_prompt_git
+      switch $PWD
+        # Huge shopify repo lags git stuff all to hell.
+        case '*/shopify*'
+          _thume_prompt_dir
+        case '*'
+          _thume_prompt_git
+      end
     else
       _thume_prompt_dir
     end
