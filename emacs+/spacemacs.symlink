@@ -6,10 +6,12 @@
               '(
                 ;; (perspectives :variables perspective-enable-persp-projectile t)
                 (auto-completion :variables auto-completion-return-key-behavior nil
-                                 auto-completion-tab-key-behavior 'complete
+                                 auto-completion-tab-key-behavior complete
                                  auto-completion-complete-with-key-sequence "ht")
                 (git :variables git-enable-github-support t)
-                extra-langs auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d vagrant))
+                extra-langs emacs-lisp auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d vagrant))
+
+(setq-default dotspacemacs-additional-packages '(helm-git-grep))
 
 ;; Misc Snippets
 
@@ -111,14 +113,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
 
-  ;; Work around (hopefully temporary) awful company behaviour
-  (eval-after-load 'company '(define-key company-active-map [escape] nil))
+  (eval-after-load 'company-dabbrev-code
+    '(add-to-list 'company-dabbrev-code-modes 'enh-ruby-mode))
 
   (evil-leader/set-key
     "ff" 'ido-find-file
     "oa" 'helm-apropos
+    "og" 'helm-git-grep
     ";" 'helm-M-x
     "oe" 'eval-expression)
+  (eval-after-load 'evil-org
+    '(evil-define-key 'normal evil-org-mode-map "O" '(lambda () (interactive) (evil-org-eol-call 'org-insert-heading))))
 
   (eval-after-load 'projectile
     '(progn
@@ -145,12 +150,13 @@ This function is called at the very end of Spacemacs initialization."
 
   (push '("\\.h$" . c++-mode) auto-mode-alist)
   ;; (push '("^\*helm.+\*$" :regexp t :height 0.4) popwin:special-display-config)
-  (eval-after-load 'company
-    (push 'enh-ruby-mode company-dabbrev-code-modes))
 
   (setq-default company-idle-delay 0.0
                 ;; org-bullets-bullet-list '("■" "◆" "▲" "▶")
+                helm-grep-default-command "git grep -n%cH --color=never --full-name -e %p %f"
                 vc-follow-symlinks t
+                projectile-use-git-grep t
+                evil-ex-substitute-global t
                 system-uses-terminfo nil
                 git-gutter-fr:side 'left-fringe
                 helm-pt-insert-at-point nil
@@ -160,6 +166,8 @@ This function is called at the very end of Spacemacs initialization."
                 enh-ruby-deep-indent-paren nil
                 lua-indent-level 2
                 json-encoding-default-indentation 2
+                js-indent-level 2
+                css-indent-offset 2
                 evil-shift-width 2
                 web-mode-markup-indent-offset 2
                 web-mode-css-indent-offset 2
