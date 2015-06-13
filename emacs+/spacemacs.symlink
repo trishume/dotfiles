@@ -6,10 +6,10 @@
               '(
                 ;; (perspectives :variables perspective-enable-persp-projectile t)
                 (auto-completion :variables auto-completion-return-key-behavior nil
-                                 auto-completion-tab-key-behavior complete
+                                 auto-completion-tab-key-behavior 'complete
                                  auto-completion-complete-with-key-sequence "ht")
                 (git :variables git-enable-github-support t)
-                extra-langs emacs-lisp auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d vagrant))
+                extra-langs emacs-lisp latex ranger-control c-c++ haskell html javascript ruby colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d vagrant))
 
 (setq-default dotspacemacs-additional-packages '(helm-git-grep))
 

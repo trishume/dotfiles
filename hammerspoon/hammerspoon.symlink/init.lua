@@ -9,12 +9,21 @@ local screen = require "hs.screen"
 local grid = require "hs.grid"
 local hints = require "hs.hints"
 local appfinder = require "hs.appfinder"
+local applescript = require "hs.applescript"
 
 local tabs = require "tabs"
 
 local definitions = nil
 local hyper = nil
 local hyper2 = nil
+
+local function sendLookMouse(command)
+  return function()
+    local f = io.open("/dev/cu.usbmodem1141211","w")
+    f:write(command)
+    f:close()
+  end
+end
 
 local gridset = function(frame)
 	return function()
@@ -135,6 +144,9 @@ definitions = {
   s = gridset(goright),
 
   g = applyLayout(layout2),
+
+  p = sendLookMouse('!'),
+  w = sendLookMouse('.'),
 
   d = grid.pushWindowNextScreen,
   r = hs.reload,
