@@ -6,7 +6,7 @@
               '(
                 ;; (perspectives :variables perspective-enable-persp-projectile t)
                 (auto-completion :variables auto-completion-return-key-behavior nil
-                                 auto-completion-tab-key-behavior complete
+                                 auto-completion-tab-key-behavior 'complete
                                  auto-completion-complete-with-key-sequence "ht")
                 (git :variables git-enable-github-support t)
                 extra-langs emacs-lisp auctex ranger-control c-c++ haskell html javascript ruby ycmd colors lua trishume tex-math-magic markdown racket finance go org syntax-checking shell-scripts pcre2el deft eshell d vagrant))
@@ -112,6 +112,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "This is were you can ultimately override default Spacemacs configuration.
 This function is called at the very end of Spacemacs initialization."
   (mac-switch-meta)
+  (define-key evil-motion-state-map "j" #'evil-next-visual-line)
+  (define-key evil-motion-state-map "k" #'evil-previous-visual-line)
 
   (eval-after-load 'company-dabbrev-code
     '(add-to-list 'company-dabbrev-code-modes 'enh-ruby-mode))
@@ -133,7 +135,10 @@ This function is called at the very end of Spacemacs initialization."
        (setq frame-title-format '(:eval (or (trishume/frame-title) "%b")))))
 
   ;; Delete trailing whitespace on save instead of showing it
-  (add-hook 'before-save-hook '(lambda (when (not (eq? major-mode 'org-mode)) (delete-trailing-whitespace))))
+  (defun dotspacemacs/maybe-clear-whitespace ()
+    (interactive)
+    (when (not (eq major-mode 'org-mode)) (delete-trailing-whitespace)))
+  (add-hook 'before-save-hook #'dotspacemacs/maybe-clear-whitespace)
   (add-hook 'prog-mode-hook (lambda ()
                               (interactive)
                               (setq show-trailing-whitespace nil)) t)
