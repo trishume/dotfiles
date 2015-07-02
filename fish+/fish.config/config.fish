@@ -64,3 +64,5 @@ alias scp-resume "rsync --partial -av --progress --rsh=ssh"
 # if test $MACHINE = "TBook"
 #   . $FISH/iterm.fish
 # end
+
+set -e -x MACHINE

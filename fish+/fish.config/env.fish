@@ -11,6 +11,7 @@ set -x ALTERNATE_EDITOR vim
 set -x SITE_DEPLOY_PATH $HOME/Box/Sites/thume
 set -x LEDGER_FILE $HOME/Box/Life/me.ldg
 set -x PRY
+set -x DISABLE_SPRING
 
 # Random programs
 if test $MACHINE = "TBook"
