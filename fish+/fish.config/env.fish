@@ -1,4 +1,4 @@
-if test $MACHINE = "Vagrant"
+if test $THIS_MACHINE = "Vagrant"
   set -x DOTFILES $HOME/dotfiles
 else
   set -x DOTFILES $HOME/Box/Dev/Dotfiles
@@ -14,7 +14,7 @@ set -x PRY
 set -x DISABLE_SPRING
 
 # Random programs
-if test $MACHINE = "TBook"
+if test $THIS_MACHINE = "TBook"
   set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
 end
 
@@ -29,15 +29,15 @@ end
 # PATH Setup
 
 # Languages
-if test $MACHINE = "TBox"
+if test $THIS_MACHINE = "TBox"
   set PATH /usr/local/bin $PATH # misc
   set PATH $HOME/bin/nim/bin $PATH # Nim
-else if test $MACHINE = "WikiBox"
+else if test $THIS_MACHINE = "WikiBox"
   set PATH $HOME/bin/nim/bin $PATH # Nim
-else if test $MACHINE = "Vagrant"
+else if test $THIS_MACHINE = "Vagrant"
   set PATH /home/vagrant/.gem/ruby/2.1.6/bin /usr/lib/shopify-ruby/2.1.6-shopify1/lib/ruby/gems/2.1.0/bin /usr/lib/shopify-ruby/2.1.6-shopify1/bin $PATH
   set PATH /usr/local/heroku/bin $PATH /home/vagrant/src/go/bin
-else if test $MACHINE = "TBook" # Tbook
+else if test $THIS_MACHINE = "TBook" # Tbook
   # set PATH $PATH /Applications/Julia.app/Contents/Resources/julia/bin # Julia
   set PATH /Applications/Racket/bin $PATH # racket
   set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt

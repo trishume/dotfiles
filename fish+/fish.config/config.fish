@@ -3,15 +3,15 @@ set fish_path $HOME/.oh-my-fish
 set -x FISH $HOME/.config/fish
 
 if test (hostname) = "Tbox3"
-  set -x MACHINE TBox
+  set -x THIS_MACHINE TBox
 else if test (hostname) = "WikiBox" -o (hostname) = "WikiBox2"
-  set -x MACHINE WikiBox
+  set -x THIS_MACHINE WikiBox
 else if test (hostname) = "vagrant.myshopify.io"
-  set -x MACHINE Vagrant
+  set -x THIS_MACHINE Vagrant
 else if test (hostname) = "Tristans-MacBook-Pro.local"
-  set -x MACHINE WorkBook
+  set -x THIS_MACHINE WorkBook
 else
-  set -x MACHINE TBook
+  set -x THIS_MACHINE TBook
 end
 
 . $FISH/env.fish
@@ -22,9 +22,9 @@ set fish_theme thume
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-fish/plugins/*)
 # Custom plugins may be added to ~/.oh-my-fish/custom/plugins/
 # Example format: set fish_plugins autojump bundler
-if test $MACHINE = "TBook"
+if test $THIS_MACHINE = "TBook"
   set fish_plugins bundler localhost balias
-else if test $MACHINE = "WikiBox"
+else if test $THIS_MACHINE = "WikiBox"
   set fish_plugins bundler
 else
   set fish_plugins bundler localhost percol gi rvm
@@ -61,8 +61,6 @@ alias tattach "tmux -2 attach-session -t tbox"
 alias e "emacsclient -a vim -n -c"
 alias scp-resume "rsync --partial -av --progress --rsh=ssh"
 
-# if test $MACHINE = "TBook"
+# if test $THIS_MACHINE = "TBook"
 #   . $FISH/iterm.fish
 # end
-
-set -e -x MACHINE
