@@ -87,6 +87,7 @@ function init()
   createHotkeys()
   keycodes.inputSourceChanged(rebindHotkeys)
   tabs.enableForApp("Emacs")
+  tabs.enableForApp("Atom")
 
   alert.show("Hammerspoon, at your service.")
 end
@@ -150,7 +151,7 @@ definitions = {
 fnutils.each({
   { key = "o", app = "MacRanger" },
   { key = "e", app = "Google Chrome" },
-  { key = "u", app = "Emacs" },
+  { key = "u", app = "Atom" },
   { key = "i", app = "iTerm2" },
   { key = "m", app = "Airmail" }
 }, function(object)

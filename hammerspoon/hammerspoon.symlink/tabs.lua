@@ -1,3 +1,8 @@
+--- === hs.tabs ===
+---
+--- Place the windows of an application into tabs drawn on its titlebar
+local tabs = {}
+
 local drawing = require "hs.drawing"
 local uielement = require "hs.uielement"
 local watcher = uielement.watcher
@@ -7,11 +12,6 @@ local application = require "hs.application"
 local appwatcher = application.watcher
 local appfinder = require "hs.appfinder"
 
-
-
-local tabs = {}
-
-tabs.DRAW_TABS = true
 tabs.leftPad = 10
 tabs.topPad = 2
 tabs.tabPad = 2
@@ -32,6 +32,18 @@ local function realWindow(win)
   return (win:isStandard() and win:role() ~= "AXScrollArea")
 end
 
+--- hs.tabs.tabWindows(app)
+--- Function
+--- Gets a list of the tabs of a window
+---
+--- Parameters:
+---  * app - An `hs.application` object
+---
+--- Returns:
+---  * An array of the tabbed windows of an app in the same order as they would be tabbed
+---
+--- Notes:
+---  * This function can be used when writing tab switchers
 function tabs.tabWindows(app)
   local tabWins = fnutils.filter(app:allWindows(),realWindow)
   table.sort(tabWins, function(a,b) return a:title() < b:title() end)
@@ -46,6 +58,7 @@ local function trashTabs(pid)
     obj:delete()
   end
 end
+
 local function drawTabs(app)
   local pid = app:pid()
   trashTabs(pid)
@@ -85,7 +98,6 @@ local function drawTabs(app)
 end
 
 local function reshuffle(app)
-  -- print("Resizing " .. app:title())
   local proto = app:focusedWindow()
   if not proto then return end
   local geom = app:focusedWindow():frame()
@@ -130,6 +142,16 @@ end
 
 local appWatcherStarted = false
 local appWatches = {}
+
+--- hs.tabs.enableForApp(app)
+--- Function
+--- Places all the windows of an app into one place and tab them
+---
+--- Parameters:
+---  * app - An `hs.application` object
+---
+--- Returns:
+---  * None
 function tabs.enableForApp(appName)
   appWatches[appName] = true
 
@@ -153,11 +175,24 @@ function tabs.enableForApp(appName)
   watch:start()
 end
 
+--- hs.tabs.focusTab(app, num)
+--- Function
+--- Focuses a specific tab of an app
+---
+--- Parameters:
+---  * app - An `hs.application` object previously enabled for tabbing
+---  * num - A tab number to switch to
+---
+--- Returns:
+---  * None
+---
+--- Notes:
+---  * If num is higher than the number of tabs, the last tab will be focussed
 function tabs.focusTab(app,num)
   if not app or not appWatches[app:title()] then return end
   local tabs = tabs.tabWindows(app)
   local bounded = num
-  print(hs.inspect(tabs))
+  --print(hs.inspect(tabs))
   if num > #tabs then
     bounded = #tabs
   end
