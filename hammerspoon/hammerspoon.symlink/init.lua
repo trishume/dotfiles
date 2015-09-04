@@ -139,6 +139,7 @@ local layout2 = {
   Dash = {1, gomiddle},
   iTerm = {2, goright},
   MacRanger = {2, goleft},
+  ["Path Finder"] = {2, goleft},
   Mail = {2, goright},
 }
 fnutils.each(fullApps, function(app) layout2[app] = {1, gobig} end)
@@ -168,11 +169,11 @@ definitions = {
 
 -- launch and focus applications
 fnutils.each({
-  { key = "o", app = "MacRanger" },
+  { key = "o", app = "Path Finder" },
   { key = "e", app = "Google Chrome" },
-  { key = "u", app = "Atom" },
+  { key = "u", app = "Sublime Text" },
   { key = "i", app = "iTerm2" },
-  { key = "m", app = "Airmail" }
+  { key = "m", app = "Thunderbird" }
 }, function(object)
     definitions[object.key] = function()
       local app = appfinder.appFromName(object.app)
