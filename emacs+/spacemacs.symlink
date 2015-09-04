@@ -120,6 +120,7 @@ This function is called at the very end of Spacemacs initialization."
     "ff" 'ido-find-file
     "oa" 'helm-apropos
     "og" 'helm-git-grep
+    "ol" 'latex/build
     ";" 'helm-M-x
     "oe" 'eval-expression)
   (eval-after-load 'evil-org
