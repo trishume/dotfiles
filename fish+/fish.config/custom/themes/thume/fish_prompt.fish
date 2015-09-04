@@ -39,11 +39,11 @@ set _thume_tbox_glyph  \u2601\uFE0E
 set _thume_wiki_glyph  W
 set _thume_vagrant_glyph V
 
-if test $MACHINE = "TBox"
+if test $THIS_MACHINE = "TBox"
   set -g _thume_machine_glyph $_thume_tbox_glyph
-else if test $MACHINE = "WikiBox"
+else if test $THIS_MACHINE = "WikiBox"
   set -g _thume_machine_glyph $_thume_wiki_glyph
-else if test $MACHINE = "Vagrant"
+else if test $THIS_MACHINE = "Vagrant"
   set -g _thume_machine_glyph $_thume_vagrant_glyph
 else
   set -g _thume_machine_glyph $_thume_tbook_glyph
