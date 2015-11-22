@@ -55,6 +55,10 @@ function ranger_shell_tab --on-variable PWD --description 'Update the ranger tab
   curl -X POST --data $PWD --connect-timeout 0.05 http://localhost:5964/cdtab-s 2> /dev/null
 end
 
+function ensimeServer
+  /Users/tristan/Library/Application\ Support/Sublime\ Text\ 3/Packages/Ensime/serverStart.sh .ensime
+end
+
 alias git hub
 alias be "bundle exec"
 alias tattach "tmux -2 attach-session -t tbox"

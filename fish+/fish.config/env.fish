@@ -39,6 +39,7 @@ else if test $THIS_MACHINE = "Vagrant"
   set PATH /usr/local/heroku/bin $PATH /home/vagrant/src/go/bin
 else if test $THIS_MACHINE = "TBook" # Tbook
   # set PATH $PATH /Applications/Julia.app/Contents/Resources/julia/bin # Julia
+  set PATH "/Applications/Sublime Text.app/Contents/SharedSupport/bin" $PATH
   set PATH /Applications/Racket/bin $PATH # racket
   set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt
   set PATH $HOME/Library/Haskell/bin $PATH # Haskell platform

@@ -105,6 +105,7 @@ function init()
   keycodes.inputSourceChanged(rebindHotkeys)
   tabs.enableForApp("Emacs")
   tabs.enableForApp("Atom")
+  -- tabs.enableForApp("Sublime Text")
 
   alert.show("Hammerspoon, at your service.")
 end
@@ -163,7 +164,7 @@ definitions = {
 
   k = function() hints.windowHints(appfinder.appFromName("Emacs"):allWindows()) end,
   j = function() hints.windowHints(window.focusedWindow():application():allWindows()) end,
-  ll = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
+  rl = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
   ec = function() hints.windowHints(nil) end
 }
 
@@ -173,7 +174,8 @@ fnutils.each({
   { key = "e", app = "Google Chrome" },
   { key = "u", app = "Sublime Text" },
   { key = "i", app = "iTerm2" },
-  { key = "m", app = "Thunderbird" }
+  { key = "x", app = "Xcode" },
+  { key = "m", app = "Mail" }
 }, function(object)
     definitions[object.key] = function()
       local app = appfinder.appFromName(object.app)
