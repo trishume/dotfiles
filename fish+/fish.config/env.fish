@@ -49,6 +49,13 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH /usr/local/share/npm/bin $PATH # Node binaries
   set PATH /usr/local/opt/ruby/bin $PATH # Ruby executables
   set PATH /usr/local/bin /usr/local/sbin $PATH # homebrew
+  set PYTHONPATH /usr/local/lib/python2.7/site-packages $PYTHONPATH
+
+  # Nix
+  set -xg NIX_LINK "$HOME/.nix-profile"
+  set PATH $NIX_LINK/bin $NIX_LINK/sbin $PATH
+  set -xg  NIX_PATH $NIX_PATH $HOME/.nix-defexpr/channels/nixpkgs
+  set -xg SSL_CERT_FILE "$NIX_LINK/etc/ca-bundle.crt"
 end
 
 set PATH $HOME/bin $DOTFILES/bin $PATH # local bins

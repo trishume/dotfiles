@@ -130,7 +130,7 @@ local goright = {x = gw/2, y = 0, w = gw/2, h = gh}
 local gobig = {x = 0, y = 0, w = gw, h = gh}
 
 local fullApps = {
-  "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome",
+  "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome","Papers 3.4.2",
   "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes", "Emacs", "Firefox"
 }
 local layout2 = {
