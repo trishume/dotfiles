@@ -54,7 +54,7 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   # Nix
   set -xg NIX_LINK "$HOME/.nix-profile"
   set PATH $NIX_LINK/bin $NIX_LINK/sbin $PATH
-  set -xg  NIX_PATH $NIX_PATH $HOME/.nix-defexpr/channels/nixpkgs
+  set -xg  NIX_PATH $NIX_PATH "nixpkgs=$HOME/.nix-defexpr/channels/nixpkgs"
   set -xg SSL_CERT_FILE "$NIX_LINK/etc/ca-bundle.crt"
 end
 
