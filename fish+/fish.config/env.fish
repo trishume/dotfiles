@@ -47,6 +47,8 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH $HOME/bin/nim/bin $HOME/.nimble/bin $PATH # Nim
   # set PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH # emacs
   set PATH /usr/local/share/npm/bin $PATH # Node binaries
+  set PATH /Users/tristan/.cargo/bin $PATH # Rust binaries
+  set -x RUST_SRC_PATH /Users/tristan/Documents/rustc-1.6.0/src
   set PATH /usr/local/opt/ruby/bin $PATH # Ruby executables
   set PATH /usr/local/bin /usr/local/sbin $PATH # homebrew
   set PYTHONPATH /usr/local/lib/python2.7/site-packages $PYTHONPATH
