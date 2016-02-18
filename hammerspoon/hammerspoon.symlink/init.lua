@@ -8,6 +8,7 @@ local alert = require "hs.alert"
 local screen = require "hs.screen"
 local grid = require "hs.grid"
 local hints = require "hs.hints"
+local timer = require "hs.timer"
 local appfinder = require "hs.appfinder"
 local applescript = require "hs.applescript"
 
@@ -104,7 +105,7 @@ function init()
   createHotkeys()
   keycodes.inputSourceChanged(rebindHotkeys)
   tabs.enableForApp("Emacs")
-  tabs.enableForApp("Atom")
+  -- tabs.enableForApp("Atom")
   -- tabs.enableForApp("Sublime Text")
 
   alert.show("Hammerspoon, at your service.")
@@ -131,7 +132,7 @@ local gobig = {x = 0, y = 0, w = gw, h = gh}
 
 local fullApps = {
   "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome","Papers 3.4.2",
-  "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes", "Emacs", "Firefox"
+  "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes", "Emacs", "Firefox", "Sublime Text"
 }
 local layout2 = {
   Airmail = {1, gomiddle},
@@ -144,6 +145,15 @@ local layout2 = {
   Mail = {2, goright},
 }
 fnutils.each(fullApps, function(app) layout2[app] = {1, gobig} end)
+local layout2fn = applyLayout(layout2)
+
+screen.watcher.new(function()
+  if #(screen.allScreens()) > 1 then
+    timer.doAfter(3, function()
+      layout2fn()
+    end)
+  end
+end):start()
 
 definitions = {
   [";"] = saveFocus,
@@ -154,7 +164,7 @@ definitions = {
   n = grid.maximizeWindow,
   s = gridset(goright),
 
-  g = applyLayout(layout2),
+  g = layout2fn,
 
   w = sendLookMouse('.'),
 
@@ -162,7 +172,7 @@ definitions = {
   r = hs.reload,
   q = function() appfinder.appFromName("Hammerspoon"):kill() end,
 
-  k = function() hints.windowHints(appfinder.appFromName("Emacs"):allWindows()) end,
+  k = function() hints.windowHints(appfinder.appFromName("Sublime Text"):allWindows()) end,
   j = function() hints.windowHints(window.focusedWindow():application():allWindows()) end,
   rl = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
   ec = function() hints.windowHints(nil) end
