@@ -36,7 +36,7 @@ end
 set fish_greeting ''
 
 function fish_title
-  echo (prompt_pwd)
+  echo (basename $PWD)
 end
 
 function fish_user_key_bindings
@@ -65,6 +65,6 @@ alias tattach "tmux -2 attach-session -t tbox"
 alias e "emacsclient -a vim -n -c"
 alias scp-resume "rsync --partial -av --progress --rsh=ssh"
 
-# if test $THIS_MACHINE = "TBook"
-#   . $FISH/iterm.fish
-# end
+if test $THIS_MACHINE = "TBook"
+  . $FISH/iterm.fish
+end
