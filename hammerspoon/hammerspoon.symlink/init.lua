@@ -18,17 +18,6 @@ local definitions = nil
 local hyper = nil
 local hyper2 = nil
 
-local function sendLookMouse(command)
-  return function()
-    local f = io.open("/dev/cu.usbmodem1141211","w")
-    if not f then
-      return
-    end
-    f:write(command)
-    f:close()
-  end
-end
-
 local gridset = function(frame)
 	return function()
 		local win = window.focusedWindow()
@@ -72,10 +61,6 @@ function rebindHotkeys()
   for i, hk in ipairs(hotkeys) do
     hk:disable()
   end
-
-  local hk = hotkey.new({}, 'f7', sendLookMouse('.'))
-  table.insert(hotkeys, hk)
-  hk:enable()
 
   hotkeys = {}
   createHotkeys()
@@ -165,9 +150,6 @@ definitions = {
   s = gridset(goright),
 
   g = layout2fn,
-
-  w = sendLookMouse('.'),
-
   d = grid.pushWindowNextScreen,
   r = hs.reload,
   q = function() appfinder.appFromName("Hammerspoon"):kill() end,
