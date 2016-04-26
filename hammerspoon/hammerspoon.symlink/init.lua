@@ -68,7 +68,7 @@ function rebindHotkeys()
 end
 
 function applyPlace(win, place)
-  local scrs = screen:allScreens()
+  local scrs = screen.allScreens()
   local scr = scrs[place[1]]
   grid.set(win, place[2], scr)
 end
@@ -88,7 +88,7 @@ end
 
 function init()
   createHotkeys()
-  keycodes.inputSourceChanged(rebindHotkeys)
+  -- keycodes.inputSourceChanged(rebindHotkeys)
   tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
   -- tabs.enableForApp("Sublime Text")
@@ -151,12 +151,12 @@ definitions = {
 
   g = layout2fn,
   d = grid.pushWindowNextScreen,
-  r = hs.reload,
+  -- r = hs.reload,
   q = function() appfinder.appFromName("Hammerspoon"):kill() end,
 
   k = function() hints.windowHints(appfinder.appFromName("Sublime Text"):allWindows()) end,
   j = function() hints.windowHints(window.focusedWindow():application():allWindows()) end,
-  rl = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
+  -- rl = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
   ec = function() hints.windowHints(nil) end
 }
 
