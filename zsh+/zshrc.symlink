@@ -31,3 +31,8 @@ pd() {
   projDir=$(pro search $1)
   cd ${projDir}
 }
+
+# added by travis gem
+[ -f /Users/tristan/.travis/travis.sh ] && source /Users/tristan/.travis/travis.sh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
