@@ -1,4 +1,5 @@
 -- Load Extensions
+require("luarocks.loader")
 local application = require "hs.application"
 local window = require "hs.window"
 local hotkey = require "hs.hotkey"
@@ -11,6 +12,8 @@ local hints = require "hs.hints"
 local timer = require "hs.timer"
 local appfinder = require "hs.appfinder"
 local applescript = require "hs.applescript"
+local eventtap = require "hs.eventtap"
+local popclick = require "thume.popclick"
 
 local tabs = require "tabs"
 
@@ -86,8 +89,55 @@ function applyLayout(layout)
   end
 end
 
+listener = nil
+popclickListening = false
+local scrollDownTimer = nil
+local scrollDownEvent = eventtap.event.newScrollEvent({0,-10},{}, "pixel")
+local scrollUpEvent = eventtap.event.newScrollEvent({0,100},{}, "pixel")
+function popclickHandler(evNum)
+  -- alert.show(tostring(evNum))
+  if evNum == 1 then
+    scrollDownTimer:start()
+  elseif evNum == 2 then
+    scrollDownTimer:stop()
+  elseif evNum == 3 then
+    scrollUpEvent:post()
+  end
+end
+
+function popclickPlayPause()
+  if not popclickListening then
+    popclick.start(listener)
+    alert.show("listening")
+  else
+    popclick.stop(listener)
+    alert.show("stopped listening")
+  end
+  popclickListening = not popclickListening
+end
+
+local function wrap(fn)
+  return function(...)
+    if fn then
+      local ok, err = xpcall(fn, debug.traceback, ...)
+      if not ok then hs.showerror(err) end
+    end
+  end
+end
+
+function popclickInit()
+  popclickListening = false
+  local fn = wrap(popclickHandler)
+  listener = popclick.new(fn)
+
+  scrollDownTimer = timer.new(0.02, function()
+    scrollDownEvent:post()
+    end)
+end
+
 function init()
   createHotkeys()
+  popclickInit()
   -- keycodes.inputSourceChanged(rebindHotkeys)
   tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
@@ -153,6 +203,7 @@ definitions = {
   d = grid.pushWindowNextScreen,
   -- r = hs.reload,
   q = function() appfinder.appFromName("Hammerspoon"):kill() end,
+  l = popclickPlayPause,
 
   k = function() hints.windowHints(appfinder.appFromName("Sublime Text"):allWindows()) end,
   j = function() hints.windowHints(window.focusedWindow():application():allWindows()) end,
