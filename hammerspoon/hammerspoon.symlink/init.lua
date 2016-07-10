@@ -92,8 +92,6 @@ end
 listener = nil
 popclickListening = false
 local scrollDownTimer = nil
-local scrollDownEvent = eventtap.event.newScrollEvent({0,-10},{}, "pixel")
-local scrollUpEvent = eventtap.event.newScrollEvent({0,100},{}, "pixel")
 function popclickHandler(evNum)
   -- alert.show(tostring(evNum))
   if evNum == 1 then
@@ -101,7 +99,7 @@ function popclickHandler(evNum)
   elseif evNum == 2 then
     scrollDownTimer:stop()
   elseif evNum == 3 then
-    scrollUpEvent:post()
+    eventtap.scrollWheel({0,250},{}, "pixel")
   end
 end
 
@@ -131,7 +129,7 @@ function popclickInit()
   listener = popclick.new(fn)
 
   scrollDownTimer = timer.new(0.02, function()
-    scrollDownEvent:post()
+    eventtap.scrollWheel({0,-10},{}, "pixel")
     end)
 end
 
