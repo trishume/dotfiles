@@ -99,7 +99,11 @@ function popclickHandler(evNum)
   elseif evNum == 2 then
     scrollDownTimer:stop()
   elseif evNum == 3 then
-    eventtap.scrollWheel({0,250},{}, "pixel")
+    if application.frontmostApplication():name() == "ReadKit" then
+      eventtap.keyStroke({}, "j")
+    else
+      eventtap.scrollWheel({0,250},{}, "pixel")
+    end
   end
 end
 
