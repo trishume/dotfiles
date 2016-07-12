@@ -109,10 +109,10 @@ end
 
 function popclickPlayPause()
   if not popclickListening then
-    popclick.start(listener)
+    listener:start()
     alert.show("listening")
   else
-    popclick.stop(listener)
+    listener:stop()
     alert.show("stopped listening")
   end
   popclickListening = not popclickListening
