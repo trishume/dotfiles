@@ -13,6 +13,7 @@ local timer = require "hs.timer"
 local appfinder = require "hs.appfinder"
 local applescript = require "hs.applescript"
 local eventtap = require "hs.eventtap"
+-- local popclick = require "hs.noises"
 local popclick = require "thume.popclick"
 
 local tabs = require "tabs"
@@ -129,7 +130,8 @@ end
 
 function popclickInit()
   popclickListening = false
-  local fn = wrap(popclickHandler)
+  -- local fn = wrap(popclickHandler)
+  local fn = popclickHandler
   listener = popclick.new(fn)
 
   scrollDownTimer = timer.new(0.02, function()
@@ -143,7 +145,7 @@ function init()
   -- keycodes.inputSourceChanged(rebindHotkeys)
   tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
-  -- tabs.enableForApp("Sublime Text")
+  tabs.enableForApp("Sublime Text")
 
   alert.show("Hammerspoon, at your service.")
 end

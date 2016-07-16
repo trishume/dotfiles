@@ -10,7 +10,6 @@ local fnutils = require "hs.fnutils"
 local timer = require "hs.timer"
 local application = require "hs.application"
 local appwatcher = application.watcher
-local appfinder = require "hs.appfinder"
 
 tabs.leftPad = 10
 tabs.topPad = 2
@@ -59,7 +58,14 @@ local function trashTabs(pid)
   end
 end
 
+local function tabTitle(titleText)
+  -- filter out Sublime Text file name
+  local windowName = string.gsub(titleText, ".+ — ","")
+  return windowName:sub(1,tabs.maxTitle)
+end
+
 local function drawTabs(app)
+  print("draw")
   local pid = app:pid()
   trashTabs(pid)
   drawTable[pid] = {}
@@ -76,6 +82,7 @@ local function drawTabs(app)
     local win = tabWins[numTabs-i]
     pt.x = pt.x - tabs.tabWidth - tabs.tabPad
     local r = drawing.rectangle({x=pt.x,y=pt.y,w=tabs.tabWidth,h=tabs.tabHeight})
+    r:setClickCallback(nil, function() tabs.focusTab(app, #tabs.tabWindows(app) - i) end)
     r:setFill(true)
     if win == proto then
       r:setFillColor(tabs.selectedColor)
@@ -84,14 +91,15 @@ local function drawTabs(app)
     end
     r:setStrokeColor(tabs.strokeColor)
     r:setRoundedRectRadii(tabs.tabRound,tabs.tabRound)
-    r:bringToFront()
+    r:setLevel(drawing.windowLevels.dock)
     r:show()
     table.insert(objs,r)
-    local tabText = win:title():sub(1,tabs.maxTitle)
+    local tabText = tabTitle(win:title())
     local t = drawing.text({x=pt.x+tabs.textLeftPad,y=pt.y+tabs.textTopPad,
                             w=tabs.tabWidth,h=tabs.tabHeight},tabText)
     t:setTextSize(tabs.textSize)
     t:setTextColor(tabs.textColor)
+    t:setLevel(drawing.windowLevels.dock)
     t:show()
     table.insert(objs,t)
   end
@@ -148,17 +156,19 @@ local appWatches = {}
 --- Places all the windows of an app into one place and tab them
 ---
 --- Parameters:
----  * app - An `hs.application` object
+---  * app - An `hs.application` object or the app title
 ---
 --- Returns:
 ---  * None
-function tabs.enableForApp(appName)
-  appWatches[appName] = true
+function tabs.enableForApp(app)
+  if type(app) == "string" then
+    appWatches[app] = true
+    app = application.get(app)
+  end
 
   -- might already be running
-  local runningApp = appfinder.appFromName(appName)
-  if runningApp then
-    watchApp(runningApp)
+  if app then
+    watchApp(app)
   end
 
   -- set up a watcher to catch any watched app launching or terminating
