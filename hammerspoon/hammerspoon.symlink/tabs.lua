@@ -64,8 +64,11 @@ local function tabTitle(titleText)
   return windowName:sub(1,tabs.maxTitle)
 end
 
-local function drawTabs(app)
-  print("draw")
+-- adds hysterisis to avoid spamming redraws
+local scheduledDraws = {}
+
+local function drawTabsReal(app)
+  scheduledDraws[app:title()] = false
   local pid = app:pid()
   trashTabs(pid)
   drawTable[pid] = {}
@@ -103,6 +106,11 @@ local function drawTabs(app)
     t:show()
     table.insert(objs,t)
   end
+end
+
+local function drawTabs(app)
+  if scheduledDraws[app:title()] then return end
+  scheduledDraws[app:title()] = timer.doAfter(0.1, function() drawTabsReal(app) end)
 end
 
 local function reshuffle(app)
