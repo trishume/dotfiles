@@ -177,6 +177,8 @@ local layout2 = {
   Airmail = {1, gomiddle},
   Spotify = {1, gomiddle},
   Calendar = {1, gomiddle},
+  Messenger = {1, gomiddle},
+  Messages = {1, gomiddle},
   Dash = {1, gomiddle},
   iTerm = {2, goright},
   MacRanger = {2, goleft},
@@ -222,7 +224,8 @@ fnutils.each({
   { key = "u", app = "Sublime Text" },
   { key = "i", app = "iTerm2" },
   { key = "x", app = "Xcode" },
-  { key = "m", app = "Mail" }
+  { key = "m", app = "Mail" },
+  { key = "p", app = "Messenger" },
 }, function(object)
     definitions[object.key] = function()
       local app = appfinder.appFromName(object.app)

@@ -27,6 +27,7 @@ tabs.textColor = {red = 0.0, green = 0.0, blue = 0.0, alpha = 0.6}
 tabs.maxTitle = 11
 
 local function realWindow(win)
+  if win:title() == "Save" then return false end
   -- AXScrollArea is weird role of special finder desktop window
   return (win:isStandard() and win:role() ~= "AXScrollArea")
 end
@@ -74,6 +75,7 @@ local function drawTabsReal(app)
   drawTable[pid] = {}
   local proto = app:focusedWindow()
   if not proto or not app:isFrontmost() then return end
+  if not realWindow(proto) then return end
   local geom = app:focusedWindow():frame()
 
   local tabWins = tabs.tabWindows(app)
