@@ -13,8 +13,8 @@ local timer = require "hs.timer"
 local appfinder = require "hs.appfinder"
 local applescript = require "hs.applescript"
 local eventtap = require "hs.eventtap"
--- local popclick = require "hs.noises"
-local popclick = require "thume.popclick"
+local popclick = require "hs.noises"
+-- local popclick = require "thume.popclick"
 
 local tabs = require "tabs"
 
@@ -96,9 +96,14 @@ local scrollDownTimer = nil
 function popclickHandler(evNum)
   -- alert.show(tostring(evNum))
   if evNum == 1 then
-    scrollDownTimer:start()
+    scrollDownTimer = timer.doEvery(0.02, function()
+      eventtap.scrollWheel({0,-10},{}, "pixel")
+      end)
   elseif evNum == 2 then
-    scrollDownTimer:stop()
+    if scrollDownTimer then
+      scrollDownTimer:stop()
+      scrollDownTimer = nil
+    end
   elseif evNum == 3 then
     if application.frontmostApplication():name() == "ReadKit" then
       eventtap.keyStroke({}, "j")
@@ -133,17 +138,13 @@ function popclickInit()
   -- local fn = wrap(popclickHandler)
   local fn = popclickHandler
   listener = popclick.new(fn)
-
-  scrollDownTimer = timer.new(0.02, function()
-    eventtap.scrollWheel({0,-10},{}, "pixel")
-    end)
 end
 
 function init()
   createHotkeys()
   popclickInit()
   -- keycodes.inputSourceChanged(rebindHotkeys)
-  tabs.enableForApp("Emacs")
+  -- tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
   tabs.enableForApp("Sublime Text")
 
