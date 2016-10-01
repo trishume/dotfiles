@@ -43,6 +43,7 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH /Applications/Racket/bin $PATH # racket
   set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt
   set PATH $HOME/Library/Haskell/bin $PATH # Haskell platform
+  set PATH $HOME/.local/bin $PATH # Haskell Stack
   set PATH $GOPATH/bin $PATH /usr/local/opt/go/libexec/bin # go
   set PATH $HOME/bin/nim/bin $HOME/.nimble/bin $PATH # Nim
   # set PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH # emacs
