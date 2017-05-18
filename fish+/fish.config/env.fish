@@ -18,13 +18,13 @@ if test $THIS_MACHINE = "TBook"
   set -x JAVA_HOME (/usr/libexec/java_home -v 1.8)
 end
 
-if which keychain > /dev/null
-  set -gx HOSTNAME (hostname)
-  if status --is-interactive;
-    keychain --nogui ~/.ssh/id_rsa
-    [ -e $HOME/.keychain/$HOSTNAME-fish ]; and . $HOME/.keychain/$HOSTNAME-fish
-  end
-end
+# if which keychain > /dev/null
+#   set -gx HOSTNAME (hostname)
+#   if status --is-interactive;
+#     keychain --nogui ~/.ssh/id_rsa
+#     [ -e $HOME/.keychain/$HOSTNAME-fish ]; and . $HOME/.keychain/$HOSTNAME-fish
+#   end
+# end
 
 # PATH Setup
 
@@ -46,16 +46,26 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH $HOME/.local/bin $PATH # Haskell Stack
   set PATH $GOPATH/bin $PATH /usr/local/opt/go/libexec/bin # go
   set PATH $HOME/bin/nim/bin $HOME/.nimble/bin $PATH # Nim
+  set PATH $HOME/bin/depot_tools $PATH # Chrome Depot Tools
   # set PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH # emacs
   set PATH /usr/local/share/npm/bin $PATH # Node binaries
-  # set PATH /Users/tristan/.cargo/bin $PATH # Rust binaries
-  set PATH /Users/tristan/.multirust/toolchains/stable/cargo/bin $PATH # Rust binaries
+  set PATH /Users/tristan/.cargo/bin $PATH # Rust binaries
   set -x RUST_SRC_PATH /Users/tristan/Documents/rustc-1.6.0/src
   set PATH /usr/local/opt/ruby/bin $PATH # Ruby executables
   set PATH /usr/local/bin /usr/local/sbin $PATH # homebrew
   set PYTHONPATH /usr/local/lib/python2.7/site-packages $PYTHONPATH
 
   # set -x QTDIR64 $HOME/Qt/5.5/clang_64
+  set -x QT_DIR $HOME/Qt5.8.0/
+
+
+  # OCaml OPAM
+  # . /Users/tristan/.opam/opam-init/variables.fish > /dev/null 2> /dev/null or true
+  set PATH "/Users/tristan/.opam/system/bin" $PATH
+  set -x OCAML_TOPLEVEL_PATH "/Users/tristan/.opam/system/lib/toplevel"
+  set MANPATH "$MANPATH" "/Users/tristan/.opam/system/man"
+  set -x OPAMUTF8MSGS "1"
+  set -x CAML_LD_LIBRARY_PATH "/Users/tristan/.opam/system/lib/stublibs:/usr/local/lib/ocaml/stublibs"
 
   set -x RUST_SRC_PATH /Users/tristan/Documents/rustc-1.8.0/src
 

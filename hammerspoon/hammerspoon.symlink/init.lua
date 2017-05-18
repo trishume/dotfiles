@@ -1,5 +1,5 @@
 -- Load Extensions
-require("luarocks.loader")
+-- require("luarocks.loader")
 local application = require "hs.application"
 local window = require "hs.window"
 local hotkey = require "hs.hotkey"
@@ -144,7 +144,7 @@ function init()
   createHotkeys()
   popclickInit()
   -- keycodes.inputSourceChanged(rebindHotkeys)
-  -- tabs.enableForApp("Emacs")
+  tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
   tabs.enableForApp("Sublime Text")
 
@@ -153,7 +153,7 @@ end
 
 -- Actual config =================================
 
-hyper = {"cmd", "alt", "ctrl","shift"}
+hyper = {"alt"}
 hyper2 = {"ctrl"}
 hs.window.animationDuration = 0;
 -- hints.style = "vimperator"

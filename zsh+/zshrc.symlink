@@ -36,3 +36,6 @@ pd() {
 [ -f /Users/tristan/.travis/travis.sh ] && source /Users/tristan/.travis/travis.sh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# OPAM configuration
+. /Users/tristan/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
