@@ -11,12 +11,12 @@ local grid = require "hs.grid"
 local hints = require "hs.hints"
 local timer = require "hs.timer"
 local appfinder = require "hs.appfinder"
-local applescript = require "hs.applescript"
+-- local applescript = require "hs.applescript"
 local eventtap = require "hs.eventtap"
 local popclick = require "hs.noises"
 -- local popclick = require "thume.popclick"
 
-local tabs = require "tabs"
+-- local tabs = require "tabs"
 
 local definitions = nil
 local hyper = nil
@@ -144,17 +144,17 @@ function init()
   createHotkeys()
   popclickInit()
   -- keycodes.inputSourceChanged(rebindHotkeys)
-  tabs.enableForApp("Emacs")
+  -- tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
-  tabs.enableForApp("Sublime Text")
+  -- tabs.enableForApp("Sublime Text")
 
   alert.show("Hammerspoon, at your service.")
 end
 
 -- Actual config =================================
 
-hyper = {"alt"}
-hyper2 = {"ctrl"}
+hyper = {"cmd","ctrl","alt","shift"}
+hyper2 = {"alt"}
 hs.window.animationDuration = 0;
 -- hints.style = "vimperator"
 -- Set grid size.
@@ -189,13 +189,13 @@ local layout2 = {
 fnutils.each(fullApps, function(app) layout2[app] = {1, gobig} end)
 local layout2fn = applyLayout(layout2)
 
-screen.watcher.new(function()
-  if #(screen.allScreens()) > 1 then
-    timer.doAfter(3, function()
-      layout2fn()
-    end)
-  end
-end):start()
+-- screen.watcher.new(function()
+--   if #(screen.allScreens()) > 1 then
+--     timer.doAfter(3, function()
+--       layout2fn()
+--     end)
+--   end
+-- end):start()
 
 definitions = {
   [";"] = saveFocus,
@@ -215,7 +215,9 @@ definitions = {
   k = function() hints.windowHints(appfinder.appFromName("Sublime Text"):allWindows()) end,
   j = function() hints.windowHints(window.focusedWindow():application():allWindows()) end,
   -- rl = function() hyper, hyper2 = hyper2,hyper; rebindHotkeys() end,
-  ec = function() hints.windowHints(nil) end
+  ec = function() hints.windowHints(nil) end,
+  -- focus last tab
+  ["9"] = function() window.focusedWindow():focusTab(9000) end
 }
 
 -- launch and focus applications
@@ -234,10 +236,10 @@ fnutils.each({
     end
 end)
 
-for i=1,6 do
+-- hyper+1-8 to focus tab indices 1-8
+for i=1,8 do
   definitions[tostring(i)] = function()
-    local app = application.frontmostApplication()
-    tabs.focusTab(app,i)
+    window.focusedWindow():focusTab(i-1)
   end
 end
 
