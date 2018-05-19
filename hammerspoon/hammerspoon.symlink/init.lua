@@ -22,11 +22,18 @@ local definitions = nil
 local hyper = nil
 local hyper2 = nil
 
+function pokeSublime(win)
+  if win:application():name() == "Sublime Text" then
+    hs.execute("/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl --command auto_max_pane -b")
+  end
+end
+
 local gridset = function(frame)
 	return function()
 		local win = window.focusedWindow()
 		if win then
 			grid.set(win, frame, win:screen())
+      pokeSublime(win)
 		else
 			alert.show("No focused window.")
 		end
@@ -233,7 +240,7 @@ definitions = {
 
   h = gridset(gomiddle),
   t = gridset(goleft),
-  n = grid.maximizeWindow,
+  n = function() grid.maximizeWindow(); pokeSublime(window.focusedWindow()) end,
   s = gridset(goright),
 
   g = layout2fn,
