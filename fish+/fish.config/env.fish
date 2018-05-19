@@ -39,20 +39,24 @@ else if test $THIS_MACHINE = "Vagrant"
   set PATH /usr/local/heroku/bin $PATH /home/vagrant/src/go/bin
 else if test $THIS_MACHINE = "TBook" # Tbook
   # set PATH $PATH /Applications/Julia.app/Contents/Resources/julia/bin # Julia
+  # set PATH $PATH $HOME/Box/Dev/Projects/gutenberg/target/release
+  set PATH $PATH /Applications/JuliaPro-0.6.0.1.app/Contents/Resources/julia/Contents/Resources/julia/bin
   set PATH "/Applications/Sublime Text.app/Contents/SharedSupport/bin" $PATH
   set PATH /Applications/Racket/bin $PATH # racket
-  set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt
+  # set PATH $HOME/Qt/5.3/clang_64/bin $PATH # Qt
   set PATH $HOME/Library/Haskell/bin $PATH # Haskell platform
   set PATH $HOME/.local/bin $PATH # Haskell Stack
   set PATH $GOPATH/bin $PATH /usr/local/opt/go/libexec/bin # go
   set PATH $HOME/bin/nim/bin $HOME/.nimble/bin $PATH # Nim
-  set PATH $HOME/bin/depot_tools $PATH # Chrome Depot Tools
+  # set PATH $HOME/bin/depot_tools $PATH # Chrome Depot Tools
   # set PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH # emacs
   set PATH /usr/local/share/npm/bin $PATH # Node binaries
   set PATH /Users/tristan/.cargo/bin $PATH # Rust binaries
   set -x RUST_SRC_PATH /Users/tristan/Documents/rustc-1.6.0/src
   set PATH /usr/local/opt/ruby/bin $PATH # Ruby executables
   set PATH /usr/local/bin /usr/local/sbin $PATH # homebrew
+  set PATH /Users/tristan/Library/Python/2.7/bin $PATH # voltron Python
+  set PATH /Users/tristan/misc/apitrace/build $PATH # apitrace
   set PYTHONPATH /usr/local/lib/python2.7/site-packages $PYTHONPATH
 
   # set -x QTDIR64 $HOME/Qt/5.5/clang_64
@@ -70,10 +74,16 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set -x RUST_SRC_PATH /Users/tristan/Documents/rustc-1.8.0/src
 
   # Nix
-  set -xg NIX_LINK "$HOME/.nix-profile"
-  set PATH $NIX_LINK/bin $NIX_LINK/sbin $PATH
-  set -xg  NIX_PATH $NIX_PATH "nixpkgs=$HOME/.nix-defexpr/channels/nixpkgs"
-  set -xg SSL_CERT_FILE "$NIX_LINK/etc/ca-bundle.crt"
+  # set -xg NIX_LINK "$HOME/.nix-profile"
+  # set PATH $NIX_LINK/bin $NIX_LINK/sbin $PATH
+  # set -xg  NIX_PATH $NIX_PATH "nixpkgs=$HOME/.nix-defexpr/channels/nixpkgs"
+  # set -xg SSL_CERT_FILE "$NIX_LINK/etc/ca-bundle.crt"
+  set -x NIX_REMOTE daemon
+  set -x NIX_USER_PROFILE_DIR "/nix/var/nix/profiles/per-user/$USER"
+  set -x NIX_PROFILES "/nix/var/nix/profiles/default $HOME/.nix-profile"
+  set -x NIX_SSL_CERT_FILE "/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt"
+  set -x NIX_PATH "/nix/var/nix/profiles/per-user/root/channels"
+  set PATH "/nix/var/nix/profiles/default/bin" $PATH
 end
 
 set PATH $HOME/bin $DOTFILES/bin $PATH # local bins
