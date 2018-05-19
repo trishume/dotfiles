@@ -237,10 +237,44 @@ function _thume_prompt_load -d 'Display load average if too high'
   end
 end
 
-function _thume_prompt_time -d 'Display execution time if too high'
-  if test $CMD_DURATION
-    _thume_start_segment cyan $_thume_lt_grey
-    echo -n "$CMD_DURATION "
+function _thume_prompt_time -S -d 'Show command duration'
+  [ -z "$CMD_DURATION" -o "$CMD_DURATION" -lt 100 ]; and return
+
+  _thume_start_segment cyan $_thume_lt_grey
+
+  if [ "$CMD_DURATION" -lt 1000 ]
+    echo -ns $CMD_DURATION 'ms'
+  else if [ "$CMD_DURATION" -lt 60000 ]
+    _thume_pretty_ms $CMD_DURATION 's'
+  else if [ "$CMD_DURATION" -lt 3600000 ]
+    _thume_pretty_ms $CMD_DURATION 'm'
+  else
+    _thume_pretty_ms $CMD_DURATION 'h'
+  end
+
+  echo -ns ' '
+end
+
+function _thume_pretty_ms -S -a ms interval -d 'Millisecond formatting for humans'
+  set -l interval_ms
+  set -l scale 1
+
+  switch $interval
+    case s
+      set interval_ms 1000
+    case m
+      set interval_ms 60000
+    case h
+      set interval_ms 3600000
+      set scale 2
+  end
+
+  switch $FISH_VERSION
+    # Fish 2.3 and lower doesn't know about the -s argument to math.
+    case 2.0.\* 2.1.\* 2.2.\* 2.3.\*
+      math "scale=$scale;$ms/$interval_ms" | string replace -r '\\.?0*$' $interval | tr -d '\n'
+    case \*
+      math -s$scale "$ms/$interval_ms" | string replace -r '\\.?0*$' $interval | tr -d '\n'
   end
 end
 
