@@ -90,20 +90,34 @@ function applyLayout(layout)
   end
 end
 
+function newScroller(delay, tick)
+  return { delay = delay, tick = tick, timer = nil }
+end
+
+function startScroll(scroller)
+  if scroller.timer == nil then
+    scroller.timer = timer.doEvery(scroller.delay, function()
+      eventtap.scrollWheel({0,scroller.tick},{}, "pixel")
+      end)
+  end
+end
+
+function stopScroll(scroller)
+  if scroller.timer then
+    scroller.timer:stop()
+    scroller.timer = nil
+  end
+end
+
 listener = nil
 popclickListening = false
-local scrollDownTimer = nil
-function popclickHandler(evNum)
+local tssScrollDown = newScroller(0.02, -10)
+function scrollHandler(evNum)
   -- alert.show(tostring(evNum))
   if evNum == 1 then
-    scrollDownTimer = timer.doEvery(0.02, function()
-      eventtap.scrollWheel({0,-10},{}, "pixel")
-      end)
+    startScroll(tssScrollDown)
   elseif evNum == 2 then
-    if scrollDownTimer then
-      scrollDownTimer:stop()
-      scrollDownTimer = nil
-    end
+    stopScroll(tssScrollDown)
   elseif evNum == 3 then
     if application.frontmostApplication():name() == "ReadKit" then
       eventtap.keyStroke({}, "j")
@@ -135,14 +149,28 @@ end
 
 function popclickInit()
   popclickListening = false
-  -- local fn = wrap(popclickHandler)
-  local fn = popclickHandler
+  -- local fn = wrap(scrollHandler)
+  local fn = scrollHandler
   listener = popclick.new(fn)
+end
+
+function pedalInit()
+  local scrollDown = newScroller(0.01, -10)
+  local hk = hotkey.new({}, "f8", function() startScroll(scrollDown) end, function() stopScroll(scrollDown) end)
+  hk:enable()
+  local hk = hotkey.new({}, "f10", function() startScroll(scrollDown) end, function() stopScroll(scrollDown) end)
+  hk:enable()
+  local scrollUp = newScroller(0.01, 10)
+  local hk = hotkey.new({}, "f7", function() startScroll(scrollUp) end, function() stopScroll(scrollUp) end)
+  hk:enable()
+  local hk = hotkey.new({}, "f9", function() startScroll(scrollUp) end, function() stopScroll(scrollUp) end)
+  hk:enable()
 end
 
 function init()
   createHotkeys()
   popclickInit()
+  pedalInit()
   -- keycodes.inputSourceChanged(rebindHotkeys)
   -- tabs.enableForApp("Emacs")
   -- tabs.enableForApp("Atom")
@@ -171,7 +199,7 @@ local goright = {x = gw/2, y = 0, w = gw/2, h = gh}
 local gobig = {x = 0, y = 0, w = gw, h = gh}
 
 local fullApps = {
-  "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome","Papers 3.4.2",
+  "Safari","Aurora","Nightly","Xcode","Qt Creator","Google Chrome","Papers 3.4.2", "ReadKit",
   "Google Chrome Canary", "Eclipse", "Coda 2", "iTunes", "Emacs", "Firefox", "Sublime Text"
 }
 local layout2 = {
@@ -181,7 +209,9 @@ local layout2 = {
   Messenger = {1, gomiddle},
   Messages = {1, gomiddle},
   Dash = {1, gomiddle},
-  iTerm = {2, goright},
+  Spark = {1, gomiddle},
+  Tweetbot = {1, goleft},
+  ["iTerm2"] = {2, goright},
   MacRanger = {2, goleft},
   ["Path Finder"] = {2, goleft},
   Mail = {2, goright},
@@ -209,7 +239,7 @@ definitions = {
   g = layout2fn,
   d = grid.pushWindowNextScreen,
   -- r = hs.reload,
-  q = function() appfinder.appFromName("Hammerspoon"):kill() end,
+  -- q = function() appfinder.appFromName("Hammerspoon"):kill() end,
   l = popclickPlayPause,
 
   k = function() hints.windowHints(appfinder.appFromName("Sublime Text"):allWindows()) end,
@@ -227,7 +257,7 @@ fnutils.each({
   { key = "u", app = "Sublime Text" },
   { key = "i", app = "iTerm2" },
   { key = "x", app = "Xcode" },
-  { key = "m", app = "Mail" },
+  { key = "m", app = "Spark" },
   { key = "p", app = "Messenger" },
 }, function(object)
     definitions[object.key] = function()
@@ -239,7 +269,7 @@ end)
 -- hyper+1-8 to focus tab indices 1-8
 for i=1,8 do
   definitions[tostring(i)] = function()
-    window.focusedWindow():focusTab(i-1)
+    window.focusedWindow():focusTab(i)
   end
 end
 
