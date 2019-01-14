@@ -5,7 +5,7 @@ else
 end
 set -x PROJECTS $HOME/Box/Dev
 set -x GOPATH $HOME/Box/Dev/Langs/go
-set -x NODE_PATH /usr/local/lib/node
+set -x NODE_PATH /usr/local/lib/node:/usr/local/lib/node_modules
 set -x EDITOR vim
 set -x ALTERNATE_EDITOR vim
 set -x SITE_DEPLOY_PATH $HOME/Box/Sites/thume
@@ -57,6 +57,8 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH /usr/local/bin /usr/local/sbin $PATH # homebrew
   set PATH /Users/tristan/Library/Python/2.7/bin $PATH # voltron Python
   set PATH /Users/tristan/misc/apitrace/build $PATH # apitrace
+  set PATH /Users/tristan/bin/google-cloud-sdk/bin $PATH # Google Cloud
+  set PATH "/Applications/Sublime Merge.app/Contents/SharedSupport/bin" $PATH # Sublime Merge
   set PYTHONPATH /usr/local/lib/python2.7/site-packages $PYTHONPATH
 
   # set -x QTDIR64 $HOME/Qt/5.5/clang_64
