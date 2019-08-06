@@ -6,35 +6,6 @@ export PROJECTS=~/Box/Dev
 export SITE_DEPLOY_PATH=~/Box/Sites/thume
 export LEDGER_FILE=~/Box/Life/me.ldg
 
-# source every .zsh file in this rep
-for config_file ($ZSH/**/*.zsh) source $config_file
-
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-# load every completion after autocomplete loads
-for config_file ($ZSH/**/completion.sh) source $config_file
-
-# use .localrc for SUPER SECRET CRAP that you don't
-# want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
-
-# start the pry shell
-# pry
-
-# pro cd function
-pd() {
-  projDir=$(pro search $1)
-  cd ${projDir}
-}
-
-# added by travis gem
-[ -f /Users/tristan/.travis/travis.sh ] && source /Users/tristan/.travis/travis.sh
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # OPAM configuration
@@ -45,3 +16,34 @@ if [ -f '/Users/tristan/bin/google-cloud-sdk/path.zsh.inc' ]; then source '/User
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/tristan/bin/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/tristan/bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+### Added by Zplugin's installer
+source '/Users/tristan/.zplugin/bin/zplugin.zsh'
+autoload -Uz _zplugin
+(( ${+_comps} )) && _comps[zplugin]=_zplugin
+### End of Zplugin's installer chunk
+
+export SLIMLINE_SYMBOL_WORKING_FORMAT="%F{white}∙%f"
+export SLIMLINE_RIGHT_PROMPT_SECTIONS="execution_time exit_status virtualenv git"
+export SLIMLINE_MAX_EXEC_TIME="1"
+zplugin light mengelbrecht/slimline
+
+zplugin ice wait"0" blockf lucid
+zplugin light zsh-users/zsh-completions
+
+export ZSH_AUTOSUGGEST_USE_ASYNC=yah
+zplugin ice wait"1" atload"_zsh_autosuggest_start" lucid
+zplugin light zsh-users/zsh-autosuggestions
+
+zplugin ice wait"0" atinit"zpcompinit; zpcdreplay" lucid
+zplugin light zdharma/fast-syntax-highlighting
+
+# source every .zsh file in this rep
+for config_file ($ZSH/**/*.zsh) source $config_file
+
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+# if [[ -a ~/.localrc ]]
+# then
+#   source ~/.localrc
+# fi

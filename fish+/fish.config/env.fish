@@ -47,7 +47,7 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH $HOME/Library/Haskell/bin $PATH # Haskell platform
   set PATH $HOME/.local/bin $PATH # Haskell Stack
   set PATH $GOPATH/bin $PATH /usr/local/opt/go/libexec/bin # go
-  set PATH $HOME/bin/nim/bin $HOME/.nimble/bin $PATH # Nim
+  # set PATH $HOME/bin/nim/bin $HOME/.nimble/bin $PATH # Nim
   # set PATH $HOME/bin/depot_tools $PATH # Chrome Depot Tools
   # set PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH # emacs
   set PATH /usr/local/share/npm/bin $PATH # Node binaries
@@ -58,6 +58,8 @@ else if test $THIS_MACHINE = "TBook" # Tbook
   set PATH /Users/tristan/Library/Python/2.7/bin $PATH # voltron Python
   set PATH /Users/tristan/misc/apitrace/build $PATH # apitrace
   set PATH /Users/tristan/bin/google-cloud-sdk/bin $PATH # Google Cloud
+  set PATH /Users/tristan/bin/zig $PATH # Zig
+  set PATH "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" $PATH # VSCode
   set PATH "/Applications/Sublime Merge.app/Contents/SharedSupport/bin" $PATH # Sublime Merge
   set PYTHONPATH /usr/local/lib/python2.7/site-packages $PYTHONPATH
 
