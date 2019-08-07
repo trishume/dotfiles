@@ -5,10 +5,13 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 indent_style = space
-indent_size = 2
+indent_size = 4
 trim_trailing_whitespace = true
 
 [*.py]
+indent_size = 4
+
+[*.rs]
 indent_size = 4
 
 [Makefile]
